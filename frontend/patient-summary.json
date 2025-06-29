@@ -3,17 +3,17 @@
         "extensionSlots": {
             "hct-patient-summary-dashboard-slot": {
                 "add": [
-                    "program-summary"
+                    "clinical-views-summary"
                 ],
                 "configure": {
-                    "program-summary": {
+                    "clinical-views-summary": {
                         "tileDefinitions": [
                             {
                                 "tileHeader": "characteristicsTitle",
                                 "columns": [
                                     {
                                         "id": "artCohort",
-                                        "title": "ArtCohortTitle",
+                                        "title": "artCohortTitle",
                                         "encounterType": "74bf4fe6-8fdb-4228-be39-680a93a9cf6d",
                                         "concept": "159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                                         "isDate": true,
@@ -27,8 +27,8 @@
                                     },
                                     {
                                         "id": "currentRegimen",
-                                        "hasSummary": true,
                                         "title": "currentRegimenTitle",
+                                        "hasSummary": true,
                                         "encounterType": "74bf4fe6-8fdb-4228-be39-680a93a9cf6d",
                                         "concept": "dfbe256e-30ba-4033-837a-2e8477f2e7cd",
                                         "summaryConcept": {
@@ -37,7 +37,7 @@
                                     },
                                     {
                                         "id": "dsdModel",
-                                        "title": "dSDModelTitle",
+                                        "title": "dsdModelTitle",
                                         "hasSummary": true,
                                         "encounterType": "62ee5922-a229-48d3-a1da-875c1ffa9436",
                                         "concept": "166448AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -63,7 +63,7 @@
                                 "columns": [
                                     {
                                         "id": "viralLoad",
-                                        "title": "currentViralLoad",
+                                        "title": "viralLoadTitle",
                                         "encounterType": "3596fafb-6f6f-4396-8c87-6e63a0f1bd71",
                                         "concept": "1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                                         "hasSummary": true,
@@ -90,7 +90,7 @@
                                 "columns": [
                                     {
                                         "id": "tbScreening",
-                                        "title": "tBScreeningTitle",
+                                        "title": "tbScreeningTitle",
                                         "encounterType": "cb0a65a7-0587-477e-89b9-cf2fd144f1d4",
                                         "concept": "160108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                                         "hasSummary": true,
@@ -126,8 +126,8 @@
                                 "hivMonitoring": "HIV Monitoring",
                                 "lastVisitDetails": "Last Visit Details",
                                 "artCohortTitle": "ART Cohort",
-                                "currentRegimen": "Current Regimen",
-                                "viralLoad": "Current Viral Load",
+                                "currentRegimenTitle": "Current Regimen",
+                                "viralLoadTitle": "Current Viral Load",
                                 "dsdModelTitle": "DSD Model",
                                 "populationTypeTitle": "Population Type",
                                 "reasonForCurrentVL": "Reason For Current VL",
@@ -139,8 +139,8 @@
                             },
                             "fr": {
                                 "artCohortTitle": "Cohorte TAR",
-                                "currentRegimen": "Régime actuel",
-                                "viralLoad": "Charge virale actuelle",
+                                "currentRegimenTitle": "Régime actuel",
+                                "viralLoadTitle": "Charge virale actuelle",
                                 "dsdModelTitle": "Modèle DSD",
                                 "populationTypeTitle": "Type de population",
                                 "reasonForCurrentVL": "Raison de la charge virale actuelle",
