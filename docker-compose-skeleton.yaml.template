@@ -1,0 +1,7 @@
+services:
+  gateway:
+    image: ghcr.io/path-drc/path-drc-emr-gateway:__RELEASE_VERSION__
+  frontend:
+    image: ghcr.io/path-drc/path-drc-emr-frontend:__RELEASE_VERSION__
+  backend:
+    image: ghcr.io/path-drc/path-drc-emr-backend:__RELEASE_VERSION__

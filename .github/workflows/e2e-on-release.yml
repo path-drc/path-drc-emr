@@ -27,6 +27,15 @@ jobs:
         id: refs
         run: bash e2e_test_support_files/extract_tag_numbers.sh
 
+      - uses: s4u/maven-settings-action@v3.1.0
+        with:
+          servers: |
+              [{
+                  "id": "github",
+                  "username": "${{ github.actor }}",
+                  "password": "${{ secrets.GITHUB_TOKEN }}"
+              }]
+
       - name: Build and Run Containers
         run: docker compose -f e2e_test_support_files/docker-compose-build.yml up -d
 

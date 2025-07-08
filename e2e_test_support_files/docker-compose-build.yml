@@ -1,5 +1,9 @@
 version: "3.7"
 
+secrets:
+  m2settings:
+    file: ~/.m2/settings.xml
+
 services:
   gateway:
     build:
@@ -31,6 +35,8 @@ services:
   backend:
     build:
       context: ../
+      secrets:
+        - m2settings
     container_name: backend
     depends_on:
       - db

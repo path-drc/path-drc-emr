@@ -5,15 +5,27 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-
+    
+permissions:
+  contents: read
+  packages: write
 jobs:  
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - uses: s4u/maven-settings-action@v3.1.0
+        with:
+          servers: |
+              [{
+                  "id": "github",
+                  "username": "${{ github.actor }}",
+                  "password": "${{ secrets.GITHUB_TOKEN }}"
+              }]
+
       - name: Build and Run Containers
-        run: docker compose -f e2e_test_support_files/docker-compose-build.yml up -d
+        run: docker compose -f e2e_test_support_files/docker-compose-build.yml up -d --build
 
       - name: Wait for the backend to start
         run: while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost/openmrs/login.htm)" != "200" ]]; do sleep 10; done
