@@ -136,9 +136,14 @@
                                 "encounterType": "390c2f21-c1c4-4246-94ca-a026157cd1db",
                                 "columns": [
                                     {
+                                        "id": "disclosureDate",
+                                        "title": "disclosureDateTitle",
+                                        "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    },
+                                    {
                                         "id": "disclosureStage",
                                         "title": "disclosureStageTitle",
-                                        "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                        "concept": "573f93e2-12f6-483e-aa6e-14e9b76b311a"
                                     },
                                     {
                                         "id": "actions",

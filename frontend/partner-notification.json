@@ -89,9 +89,9 @@
                                         "concept": "59c023dd-eed2-4b11-8c34-b88e9439db3c"
                                     },
                                     {
-                                        "id": "contactOutcome",
-                                        "title": "contactOutcomeTitle",
-                                        "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                        "id": "relationship",
+                                        "title": "relationshipTitle",
+                                        "concept": "160640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                     },
                                     {
                                         "id": "actions",
@@ -131,7 +131,6 @@
                                 "relationshipTitle": "Relationship",
                                 "status": "Status",
                                 "contactMethodTitle": "Contact Method",
-                                "contactOutcomeTitle": "Contact Outcome",
                                 "actionsTitle": "Actions",
                                 "viewDetails": "View Details",
                                 "editForm": "Edit Form",
@@ -145,7 +144,6 @@
                                 "relationshipTitle": "Relation",
                                 "status": "Statut",
                                 "contactMethodTitle": "Méthode de contact",
-                                "contactOutcomeTitle": "Résultat du contact",
                                 "actionsTitle": "Actions",
                                 "viewDetails": "Voir les détails",
                                 "editForm": "Modifier le formulaire",

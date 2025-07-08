@@ -112,10 +112,10 @@
                                         }
                                     },
                                     {
-                                        "id": "programStatus",
-                                        "title": "programStatusTitle",
-                                        "encounterType": "a221448d-512b-4750-84bf-d29be9f802b3",
-                                        "concept": "163105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                        "id": "currentWhoHivStage",
+                                        "title": "currentWhoHivStageTitle",
+                                        "encounterType": "cb0a65a7-0587-477e-89b9-cf2fd144f1d4",
+                                        "concept": "5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                     }
                                 ]
                             }
@@ -135,7 +135,7 @@
                                 "tbScreeningTitle": "TB Screening",
                                 "oIsTitle": "OIs",
                                 "nextAppointmentDateTitle": "Next Appointment Date",
-                                "programStatusTitle": "Program Status"
+                                "currentWhoHivStageTitle": "Current WHO HIV Stage"
                             },
                             "fr": {
                                 "artCohortTitle": "Cohorte TAR",
@@ -148,7 +148,7 @@
                                 "tbScreeningTitle": "Dépistage de la tuberculose",
                                 "oIsTitle": "IO",
                                 "nextAppointmentDateTitle": "Date du prochain rendez-vous",
-                                "programStatusTitle": "Statut du programme"
+                                "currentWhoHivStageTitle": "Stade actuel du VIH"
                             }
                         }
                     }
