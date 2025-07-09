@@ -1,4 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -14,10 +18,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <distro.baseDir>${project.build.directory}/${project.artifactId}</distro.baseDir>
-    <distro.openmrsConfigDir>${distro.baseDir}/openmrs_config</distro.openmrsConfigDir>
-    <distro.openmrsCoreDir>${distro.baseDir}/openmrs_core</distro.openmrsCoreDir>
-    <distro.openmrsModulesDir>${distro.baseDir}/openmrs_modules</distro.openmrsModulesDir>
+    <distro.baseDir
+    >${project.build.directory}/${project.artifactId}</distro.baseDir>
+    <distro.openmrsConfigDir
+    >${distro.baseDir}/openmrs_config</distro.openmrsConfigDir>
+    <distro.openmrsCoreDir
+    >${distro.baseDir}/openmrs_core</distro.openmrsCoreDir>
+    <distro.openmrsModulesDir
+    >${distro.baseDir}/openmrs_modules</distro.openmrsModulesDir>
     <distro.spaDir>${distro.baseDir}/spa</distro.spaDir>
     <distro.spaConfigDir>${distro.baseDir}/spa_config</distro.spaConfigDir>
 
@@ -33,7 +41,6 @@
     <metadatamapping.version>1.6.0</metadatamapping.version>
     <openconceptlab.version>2.4.0</openconceptlab.version>
     <attachments.version>3.7.0</attachments.version>
-    <referencedemodata.version>2.5.0</referencedemodata.version>
     <queue.version>2.6.0</queue.version>
     <appointments.version>2.1.0-20250318.070530-1</appointments.version>
     <teleconsultation.version>2.1.0-20250318.154145-1</teleconsultation.version>
@@ -59,9 +66,9 @@
     <!-- Reports -->
     <metadatasharing.version>1.9.0</metadatasharing.version>
     <patientsummary.version>2.2.0</patientsummary.version>
-        <!-- Content Packages -->
+    <drcreports.version>1.0.0-SNAPSHOT</drcreports.version>
+    <!-- Content Packages -->
     <reference-content.version>1.1.2-SNAPSHOT</reference-content.version>
-    <reference-demo-content.version>1.2.0-SNAPSHOT</reference-demo-content.version>
     <path-drc-content.version>1.0.0-SNAPSHOT</path-drc-content.version>
   </properties>
 
@@ -133,12 +140,6 @@
       <groupId>org.openmrs.module</groupId>
       <artifactId>attachments-omod</artifactId>
       <version>${attachments.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openmrs.module</groupId>
-      <artifactId>referencedemodata-omod</artifactId>
-      <version>${referencedemodata.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -238,6 +239,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.openmrs.module</groupId>
+      <artifactId>drcreports-omod</artifactId>
+      <version>${drcreports.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.openmrs.content</groupId>
       <artifactId>path.drc</artifactId>
       <version>${path-drc-content.version}</version>
@@ -330,7 +337,8 @@
                   <goal>validate-configurations</goal>
                 </goals>
                 <configuration>
-                  <sourceDir>${project.build.directory}/sdk-distro/web/openmrs_config</sourceDir>
+                  <sourceDir
+                  >${project.build.directory}/sdk-distro/web/openmrs_config</sourceDir>
                 </configuration>
               </execution>
             </executions>

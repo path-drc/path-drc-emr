@@ -170,7 +170,7 @@
       </snapshots>
     </repository>
     <repository>
-      <id>github</id>
+      <id>path-drc</id>
       <url>https://maven.pkg.github.com/path-drc/path-drc-emr</url>
        <snapshots>
         <enabled>true</enabled>
@@ -210,14 +210,14 @@
 
   <distributionManagement>
     <repository>
-      <id>openmrs-repo-releases</id>
-      <name>OpenMRS Releases Repo</name>
-      <url>https://mavenrepo.openmrs.org/releases</url>
+      <id>path-drc</id>
+      <name>PATH DRC GitHub</name>
+      <url>https://maven.pkg.github.com/path-drc/path-drc-emr</url>
     </repository>
     <snapshotRepository>
-      <id>openmrs-repo-snapshots</id>
-      <name>OpenMRS Snapshots Repo</name>
-      <url>https://mavenrepo.openmrs.org/snapshots</url>
+      <id>path-drc</id>
+      <name>PATH DRC GitHub</name>
+      <url>https://maven.pkg.github.com/path-drc/path-drc-emr</url>
     </snapshotRepository>
   </distributionManagement>
 
