@@ -24,9 +24,7 @@ jobs:
           cache: 'maven'
           server-id: path-drc
           server-username: path-drc-bot
-          server-password: MAVEN_TOKEN
+          server-password: ${{ secrets.PATH_DRC_TOKEN }}
 
       - name: Build and Test
         run: mvn --batch-mode --update-snapshots --activate-profiles distro,validator clean verify
-        env:
-          MAVEN_TOKEN: ${{ secrets.PATH_DRC_TOKEN }}
