@@ -53,14 +53,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: s4u/maven-settings-action@v3.1.0
-        with:
-         servers: |
-              [{
-                  "id": "github",
-                  "username": "${{ github.actor }}",
-                  "password": "${{ secrets.GITHUB_TOKEN }}"
-              }]
+          server-id: path-drc
+          server-username: path-drc-bot
+          server-password: MAVEN_TOKEN
+
       - name: Build and push gateway image
         uses: docker/build-push-action@v5
         with:
