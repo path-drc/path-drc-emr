@@ -22,9 +22,15 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'maven'
-          server-id: path-drc
-          server-username: path-drc-bot
-          server-password: ${{ secrets.PATH_DRC_TOKEN }}
+
+      - uses: s4u/maven-settings-action@v3.1.0
+        with:
+          servers: |
+              [{
+                  "id": "path-drc",
+                  "username": "${{ github.actor }}",
+                  "password": "${{ secrets.GITHUB_TOKEN }}"
+              }]
 
       - name: Build and Test
         run: mvn --batch-mode --update-snapshots --activate-profiles distro,validator clean verify
