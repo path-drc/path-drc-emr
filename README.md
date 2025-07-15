@@ -57,4 +57,69 @@ those that should be part of the core package. For example, a form named `test_f
 
 Frontend configuration can be found in `frontend/config-core_demo.json`.
 
+## Backup and Restore
+
+
 Thanks!
+
+# Backup and Restore
+
+This project provides out-of-the-box backup and restore functionality for your OpenMRS deployment, powered by the robust [Restic](https://restic.readthedocs.io/en/stable/) tool. This enables you to back up and restore your application data using a wide variety of storage backends supported by Restic, such as local disk, S3, Azure, Google Cloud Storage, and more.
+
+## How It Works
+
+- **Backup** and **restore** are managed by dedicated Docker Compose services using the `mekomsolutions/restic-compose-backup` and `mekomsolutions/restic-compose-backup-restore` images.
+- The backup service periodically snapshots your data volumes and database, storing them in your configured Restic repository.
+- The restore service can be used to recover your data from a specific snapshot.
+
+## Configuration
+
+### Environment Variables
+
+You can configure backup and restore behavior using the following environment variables in your `.env` file or directly in your Compose files:
+
+| Variable                  | Description                                                                                  |
+|---------------------------|----------------------------------------------------------------------------------------------|
+| `RESTIC_REPOSITORY`       | The Restic repository URL (e.g., local path, s3, etc.)                                      |
+| `RESTIC_PASSWORD`         | Password for the Restic repository                                                          |
+| `RESTIC_KEEP_DAILY`       | Number of daily snapshots to keep                                                           |
+| `RESTIC_KEEP_WEEKLY`      | Number of weekly snapshots to keep                                                          |
+| `RESTIC_KEEP_MONTHLY`     | Number of monthly snapshots to keep                                                         |
+| `RESTIC_KEEP_YEARLY`      | Number of yearly snapshots to keep                                                          |
+| `LOG_LEVEL`               | Log verbosity (e.g., `info`, `debug`)                                                       |
+| `CRON_SCHEDULE`           | Cron schedule for automatic backups (e.g., `0 2 * * *` for daily at 2am)                    |
+| `RESTIC_RESTORE_SNAPSHOT` | (Restore only) The snapshot ID or tag to restore                                           |
+| `BACKUP_PATH`             | Local directory for storing backup repository (default: `./backup`)                          |
+
+### Volumes and Labels
+
+- The `backend` and `db` services are labeled and configured to include their data volumes in the backup.
+- Additional volumes (e.g., for configuration checksums, person images, complex obs) are also included and labeled for backup.
+
+## Usage
+
+### Restore
+
+To restore from a backup:
+
+1. Set the `BACKUP_PATH`, `RESTIC_PASSWORD`, and `RESTIC_RESTORE_SNAPSHOT` environment variables.
+2. Start the restore service:
+
+```sh
+docker compose -f docker-compose.yml -f docker-compose-override.yml -f docker-compose-restore.yml up -d
+```
+
+This will restore the specified snapshot to the appropriate volumes. The `backend` and `db` services are configured to wait for the restore to complete before starting.
+
+### Clean up
+
+The restore process will leave a restore container that will block the backup process. To clean up the restore container, run the following command:
+
+```sh
+docker compose -f docker-compose.yml -f docker-compose-override.yml -f docker-compose-restore.yml rm
+```
+
+## References
+
+- [Restic Documentation](https://restic.readthedocs.io/en/stable/)
+- [mekomsolutions/restic-compose-backup](https://hub.docker.com/r/mekomsolutions/restic-compose-backup)
