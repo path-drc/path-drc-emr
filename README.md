@@ -57,9 +57,6 @@ those that should be part of the core package. For example, a form named `test_f
 
 Frontend configuration can be found in `frontend/config-core_demo.json`.
 
-## Backup and Restore
-
-
 Thanks!
 
 # Backup and Restore
@@ -106,20 +103,31 @@ To restore from a backup:
 2. Start the restore service:
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose-override.yml -f docker-compose-restore.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose-restore.yml up -d
 ```
 
 This will restore the specified snapshot to the appropriate volumes. The `backend` and `db` services are configured to wait for the restore to complete before starting.
 
-### Clean up
+***IMPORTANT*** 
 
-The restore process will leave a restore container that will block the backup process. To clean up the restore container, run the following command:
+The restore process will leave a restore container that will block the backup process. To clean up the restore container, run the following command: 
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose-override.yml -f docker-compose-restore.yml rm
+docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose-restore.yml rm restore
+docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose-restore.yml exec backup restic unlock -v
 ```
 
 ## References
 
 - [Restic Documentation](https://restic.readthedocs.io/en/stable/)
 - [mekomsolutions/restic-compose-backup](https://hub.docker.com/r/mekomsolutions/restic-compose-backup)
+
+# Offline or Air-Gapped Installations
+
+In situations where the instance running the project is not connected to the internet we provide pre-packaged images which can be loaded on the instance. To obtain the image check under the [Releases](https://github.com/path-drc/path-drc-emr/releases) section and download the `path-drc-emr-images-bundle.tgz` file.
+
+To load the images on the instance, extract the `path-drc-emr-images-bundle.tgz` file and run the following script:
+
+```sh
+./load-images.sh
+```

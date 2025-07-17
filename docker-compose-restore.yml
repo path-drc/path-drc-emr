@@ -10,7 +10,8 @@ services:
   restore:
     image: mekomsolutions/restic-compose-backup-restore
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ${BACKUP_PATH:-./restic_data}:/restic_data
