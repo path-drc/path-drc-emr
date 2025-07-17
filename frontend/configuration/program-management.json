@@ -200,12 +200,12 @@
                                         "type": "visitDate"
                                     },
                                     {
-                                        "id": "reasonsForTesting",
-                                        "title": "receivingFacility",
+                                        "id": "receivingFacility",
+                                        "title": "receivingFacilityTitle",
                                         "concept": "162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                     },
                                     {
-                                        "id": "tranferOutDate",
+                                        "id": "transferOutDate",
                                         "title": "transferOutDateTitle",
                                         "isDate": true,
                                         "concept": "160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -357,7 +357,7 @@
                                 "transferOut": "Transfer Out",
                                 "transferOutDateTitle": "Transfer Out Date",
                                 "visitDateTitle": "Visit Date",
-                                "receivingFacility": "Receiving Facility",
+                                "receivingFacilityTitle": "Receiving Facility",
                                 "verifiedTitle": "Verified",
                                 "patientTracing": "Patient Tracing",
                                 "contactDateTitle": "Contact Date",
@@ -389,7 +389,7 @@
                                 "transferOut": "Transfert",
                                 "transferOutDateTitle": "Date de transfert",
                                 "visitDateTitle": "Date de visite",
-                                "receivingFacility": "Établissement récepteur",
+                                "receivingFacilityTitle": "Établissement récepteur",
                                 "verifiedTitle": "Vérifié",
                                 "patientTracing": "Recherche des patients",
                                 "contactDateTitle": "Date de contact",
