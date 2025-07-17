@@ -18,8 +18,7 @@
                                         "id": "clinicalVisitDate",
                                         "isDate": true,
                                         "title": "visitDate",
-                                        "concept": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                                        "isLink": true
+                                        "type": "visitDate"
                                     },
                                     {
                                         "id": "clinicalVisitType",
