@@ -113,8 +113,8 @@ This will restore the specified snapshot to the appropriate volumes. The `backen
 The restore process will leave a restore container that will block the backup process. To clean up the restore container, run the following command: 
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose-restore.yml rm restore
-docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose-restore.yml exec backup restic unlock -v
+docker compose -f docker-compose.yml -f docker-compose-restore.yml rm restore
+docker compose -f docker-compose.yml -f docker-compose-restore.yml exec backup restic unlock -v
 ```
 
 ## References
