@@ -43,13 +43,14 @@ services:
       - "${OPENMRS_CONFIG_CHECKSUMS_PATH:-openmrs-config-checksums}:/openmrs/data/configuration_checksums"
       - "${OPENMRS_PERSON_IMAGES_PATH:-openmrs-person-images}:/openmrs/data/person_images"
       - "${OPENMRS_COMPLEX_OBS_PATH:-openmrs-complex-obs}:/openmrs/data/complex_obs"
+      -  openmrs-activemq-data:/openmrs/data/activemq-data
     labels:
       restic-compose-backup.volumes: true
-      restic-compose-backup.volumes.include: "${OPENMRS_CONFIG_CHECKSUMS_PATH:-openmrs-config-checksums},${OPENMRS_PERSON_IMAGES_PATH:-openmrs-person-images},${OPENMRS_COMPLEX_OBS_PATH:-openmrs-complex-obs}"
+      restic-compose-backup.volumes.include: "${OPENMRS_CONFIG_CHECKSUMS_PATH:-openmrs-config-checksums},${OPENMRS_PERSON_IMAGES_PATH:-openmrs-person-images},${OPENMRS_COMPLEX_OBS_PATH:-openmrs-complex-obs},activemq-data"
 
   # MariaDB
   db:
-    image: mariadb:10.11.7
+    image: mariadb:10.11
     restart: "unless-stopped"
     command: "mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci"
     healthcheck:
@@ -90,3 +91,4 @@ volumes:
   openmrs-config-checksums: ~
   openmrs-person-images: ~
   openmrs-complex-obs: ~
+  openmrs-activemq-data: ~

@@ -103,7 +103,7 @@ To restore from a backup:
 2. Start the restore service:
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose-restore.yml up -d
+docker compose -f docker-compose.yml -f docker-compose-restore.yml up -d
 ```
 
 This will restore the specified snapshot to the appropriate volumes. The `backend` and `db` services are configured to wait for the restore to complete before starting.
