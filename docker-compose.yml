@@ -72,7 +72,7 @@ services:
     image: mekomsolutions/restic-compose-backup
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ${BACKUP_PATH:-./restic_data}:/restic_data
+      - ${BACKUP_PATH:-./openmrs_backup}:/restic_data
       - restic-cache:/cache
     environment:
       RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
