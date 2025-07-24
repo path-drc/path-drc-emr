@@ -7,3 +7,7 @@ services:
     image: ghcr.io/path-drc/path-drc-emr-backend:__RELEASE_VERSION__
   db:
     image: mariadb:10.11.7
+  backup:
+    image: mekomsolutions/restic-compose-backup:latest
+  restore:
+    image: mekomsolutions/restic-compose-backup-restore:latest

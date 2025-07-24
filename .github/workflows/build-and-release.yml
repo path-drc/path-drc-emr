@@ -103,11 +103,13 @@ jobs:
             ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}:latest
             ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}:${{ env.RELEASE_VERSION }}
 
-      - name: Pull built images
+      - name: Pull images
         run: |
           docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-gateway:${{ env.RELEASE_VERSION }}
           docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-frontend:${{ env.RELEASE_VERSION }}
           docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-backend:${{ env.RELEASE_VERSION }}
+          docker pull mekomsolutions/restic-compose-backup:latest
+          docker pull mekomsolutions/restic-compose-backup-restore
 
       - name: Generate docker-compose-skeleton.yaml with release version
         run: |
