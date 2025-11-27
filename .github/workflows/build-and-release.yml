@@ -20,8 +20,52 @@ env:
   BACKEND_IMAGE: backend
 
 jobs:
-  build-and-release:
+  build-frontend:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract short SHA
+        id: vars
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract RELEASE_VERSION from pom.xml
+        id: extract_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build and push frontend image (common to all sites)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.FRONTEND_IMAGE }}:${{ steps.vars.outputs.SHORT_SHA }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.FRONTEND_IMAGE }}:latest
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.FRONTEND_IMAGE }}:${{ env.RELEASE_VERSION }}
+
+  build-backend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        site: [libiski, akram]
 
     steps:
       - name: Checkout code
@@ -66,6 +110,53 @@ jobs:
                   "password": "${{ secrets.GITHUB_TOKEN }}"
               }]
 
+      - name: Build and push backend image for ${{ matrix.site }}
+        uses: docker/build-push-action@v6
+        env:
+          BUILDKIT_PROGRESS: plain
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: |
+            SITE=${{ matrix.site }}
+          secret-files: |
+            m2settings=/home/runner/.m2/settings.xml
+          tags: |
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}-${{ matrix.site }}:${{ steps.vars.outputs.SHORT_SHA }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}-${{ matrix.site }}:latest
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}-${{ matrix.site }}:${{ env.RELEASE_VERSION }}
+
+  build-gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract short SHA
+        id: vars
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract RELEASE_VERSION from pom.xml
+        id: extract_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Build and push gateway image
         uses: docker/build-push-action@v6
         with:
@@ -77,37 +168,35 @@ jobs:
             ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.GATEWAY_IMAGE }}:latest
             ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.GATEWAY_IMAGE }}:${{ env.RELEASE_VERSION }}
 
-      - name: Build and push frontend image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.FRONTEND_IMAGE }}:${{ steps.vars.outputs.SHORT_SHA }}
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.FRONTEND_IMAGE }}:latest
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.FRONTEND_IMAGE }}:${{ env.RELEASE_VERSION }}
+  package-and-release:
+    needs: [build-frontend, build-backend, build-gateway]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        site: [libiski, akram]
 
-      - name: Build and push backend image
-        uses: docker/build-push-action@v6
-        env:
-          BUILDKIT_PROGRESS: plain
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          secret-files: |
-            m2settings=/home/runner/.m2/settings.xml
-          tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}:${{ steps.vars.outputs.SHORT_SHA }}
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}:latest
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-${{ env.BACKEND_IMAGE }}:${{ env.RELEASE_VERSION }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Pull images
+      - name: Extract RELEASE_VERSION from pom.xml
+        id: extract_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull images for ${{ matrix.site }}
         run: |
           docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-gateway:${{ env.RELEASE_VERSION }}
           docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-frontend:${{ env.RELEASE_VERSION }}
-          docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-backend:${{ env.RELEASE_VERSION }}
+          docker pull ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-backend-${{ matrix.site }}:${{ env.RELEASE_VERSION }}
           docker pull mekomsolutions/restic-compose-backup:latest
           docker pull mekomsolutions/restic-compose-backup-restore
 
@@ -136,23 +225,23 @@ jobs:
 
       - name: Package images and scripts for airgap
         run: |
-          mv /home/runner/docker-compose-air-gapper-*.tgz path-drc-emr-images-bundle.tgz
+          mv /home/runner/docker-compose-air-gapper-*.tgz path-drc-emr-images-bundle-${{ matrix.site }}.tgz
 
       - name: Package docker-compose files
         run: |
-          tar czf path-drc-docker-compose.tgz docker-compose.yml docker-compose-restore.yml .env*
-          ls -la path-drc-docker-compose.tgz
+          tar czf path-drc-docker-compose-${{ matrix.site }}.tgz docker-compose.yml docker-compose-restore.yml .env*
+          ls -la path-drc-docker-compose-${{ matrix.site }}.tgz
 
       - name: Upload airgap bundle artifact
         uses: actions/upload-artifact@v4
         with:
-          name: path-drc-emr-images-bundle
-          path: path-drc-emr-images-bundle.tgz
+          name: path-drc-emr-images-bundle-${{ matrix.site }}
+          path: path-drc-emr-images-bundle-${{ matrix.site }}.tgz
 
       - name: Create release for tags
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
             files: |
-             path-drc-emr-images-bundle.tgz
-             path-drc-docker-compose.tgz
+             path-drc-emr-images-bundle-${{ matrix.site }}.tgz
+             path-drc-docker-compose-${{ matrix.site }}.tgz

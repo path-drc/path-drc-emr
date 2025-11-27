@@ -4,12 +4,18 @@
 FROM openmrs/openmrs-core:2.7.x-dev-amazoncorretto-17 AS dev
 WORKDIR /openmrs_distro
 
+ARG SITE
 ARG MVN_ARGS_SETTINGS="-s /usr/share/maven/ref/settings-docker.xml -U -P distro"
 ARG MVN_ARGS="install"
 
 # Copy build files
 COPY pom.xml ./
 COPY distro ./distro/
+
+# If SITE is provided, copy site-specific distro.properties file
+RUN if [ -n "$SITE" ] && [ -f "/openmrs_distro/distro/distro.properties.$SITE" ]; then \
+      cp /openmrs_distro/distro/distro.properties.$SITE /openmrs_distro/distro/distro.properties; \
+    fi
 
 # Build the distro, but only deploy from the amd64 build
 RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml if [[ "$MVN_ARGS" != "deploy" || "$(arch)" = "x86_64" ]]; then mvn $MVN_ARGS_SETTINGS $MVN_ARGS; else mvn $MVN_ARGS_SETTINGS install; fi

@@ -1,3 +1,12 @@
+# Site-specific Docker images
+# REQUIRED: Set SITE environment variable (libiski or akram) to use site-specific backend image
+# Usage examples:
+#   SITE=libiski docker-compose up          # Pull images for libiski site
+#   SITE=akram docker-compose up            # Pull images for akram site
+#   SITE=libiski docker-compose build       # Build images for libiski site (uses override.yml)
+# 
+# Or set BACKEND_IMAGE directly to override:
+#   BACKEND_IMAGE=ghcr.io/path-drc/path-drc-emr-backend-libiski:latest docker-compose up
 services:
   gateway:
     image: ghcr.io/path-drc/path-drc-emr-gateway:${TAG:-latest}
@@ -23,7 +32,9 @@ services:
       - backend
 
   backend:
-    image: ghcr.io/path-drc/path-drc-emr-backend:${TAG:-latest}
+    # Image name: path-drc-emr-backend-${SITE}
+    # Override with BACKEND_IMAGE environment variable if needed
+    image: ${BACKEND_IMAGE:-ghcr.io/path-drc/path-drc-emr-backend-${SITE}:${TAG:-latest}}
     restart: "unless-stopped"
     depends_on:
       - db

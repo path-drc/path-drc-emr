@@ -8,15 +8,41 @@ This project holds the build configuration for the PATH DRC EMR MVP application,
 
 Copy the `.env.example` file to `.env` or create a new file with the same name and values.
 
+**Important:** Set the `SITE` environment variable to specify which site you're building for:
+- `SITE=libiski` for Libiski site
+- `SITE=akram` for Akram site
+
 ### Package the distribution and prepare the run
 
+Build for a specific site:
+
+```bash
+# Build for libiski site
+SITE=libiski docker compose build
+
+# Build for akram site
+SITE=akram docker compose build
 ```
+
+Or set `SITE` in your `.env` file and run:
+```bash
 docker compose build
 ```
 
 ### Run the app
 
+Run for a specific site:
+
+```bash
+# Run libiski site
+SITE=libiski docker compose up
+
+# Run akram site
+SITE=akram docker compose up
 ```
+
+Or set `SITE` in your `.env` file and run:
+```bash
 docker compose up
 ```
 
@@ -32,15 +58,72 @@ This distribution consists of four images:
 * backend - This image is the OpenMRS backend. It is built from the main Dockerfile included in the root of the project and
   based on the core OpenMRS Docker file. Additional contents for this image are drawn from the `distro` sub-directory which
   includes a full Initializer configuration for the reference application intended as a starting point.
-* frontend - This image is a simple nginx container that embeds the 3.x frontend, including the modules described in  the
-  `frontend/spa-build-config.json` file.
+  
+  **Backend images are site-specific:** Each site (libiski, akram) has its own backend image containing site-specific content packages:
+  - `path-drc-emr-backend-libiski` - Backend for Libiski site (includes base `path.drc` + `path.drc-libiski` content packages)
+  - `path-drc-emr-backend-akram` - Backend for Akram site (includes base `path.drc` + `path.drc-akram` content packages)
+  
+  **Note:** Each site-specific build includes the base PATH DRC content package (`path.drc`) plus its own site-specific package. This ensures all sites have the common base content while maintaining site-specific customizations.
+  
+* frontend - This image is a simple nginx container that embeds the 3.x frontend, including the modules described in the
+  `frontend/spa-build-config.json` file. **Frontend is common to all sites** (no site suffix).
 * gateway - This image is an even simpler nginx reverse proxy that sits in front of the `backend` and `frontend` containers
-  and provides a common interface to both. This helps mitigate CORS issues.
+  and provides a common interface to both. This helps mitigate CORS issues. **Gateway is common to all sites**.
 * backup - This image controls the backup process which creates backups of all the files and databases according to the configured schedule.
 
 ## Configure the instance
 
-Each instance of the DRC EMR needs to have its instance name configured in the `.env` file. This is done by setting the `OMRS_EXTRA_DRC_INSTANCE` environment variable to the name of the top-level location for that instance. For example, for the instance at Centre Hospitalier Akram, this variable should be set to `Centre Hospitalier Akram`. This variable is used to drive the configuration of instance-specific metadata, such as ensuring that only locations for that instance are available.
+Each instance of the DRC EMR needs to have its site and instance name configured in the `.env` file:
+
+1. **Set the `SITE` variable** to specify which site you're deploying:
+   - `SITE=libiski` for Libiski site
+   - `SITE=akram` for Akram site
+
+2. **Set the `OMRS_EXTRA_DRC_INSTANCE` variable** to the name of the top-level location for that instance. For example, for the instance at Centre Hospitalier Akram, this variable should be set to `Centre Hospitalier Akram`. This variable is used to drive the configuration of instance-specific metadata, such as ensuring that only locations for that instance are available.
+
+The `SITE` variable determines which backend Docker image will be used (site-specific content packages), while `OMRS_EXTRA_DRC_INSTANCE` configures the instance name within OpenMRS.
+
+## Building locally for a specific site
+
+To build Docker images locally for a particular site:
+
+### Using docker-compose (recommended)
+
+```bash
+# Build backend for libiski site
+SITE=libiski docker compose build backend
+
+# Build backend for akram site
+SITE=akram docker compose build backend
+
+# Build all services for a site
+SITE=libiski docker compose build
+
+# Build and run for a site
+SITE=libiski docker compose up --build
+```
+
+### Using docker build directly
+
+```bash
+# Build backend for libiski (requires Maven settings secret)
+docker build --build-arg SITE=libiski \
+  --secret id=m2settings,src=$HOME/.m2/settings.xml \
+  -t path-drc-emr-backend-libiski:local .
+
+# Build backend for akram
+docker build --build-arg SITE=akram \
+  --secret id=m2settings,src=$HOME/.m2/settings.xml \
+  -t path-drc-emr-backend-akram:local .
+
+# Build frontend (common to all sites)
+docker build -t path-drc-emr-frontend:local ./frontend
+
+# Build gateway (common to all sites)
+docker build -t path-drc-emr-gateway:local ./gateway
+```
+
+**Note:** The backend build requires Maven settings for accessing GitHub Packages. Make sure you have `~/.m2/settings.xml` configured with the appropriate credentials.
 
 ## Configuring metadata
 
@@ -48,13 +131,24 @@ The metadata for the DRC instance is in the openmrs-content-path-drc content pac
 
 # Offline or Air-Gapped Installations
 
-In situations where the instance running the project is not connected to the internet we provide pre-packaged images which can be loaded on the instance. To obtain the image check under the [Releases](https://github.com/path-drc/path-drc-emr/releases) section and download the `path-drc-emr-images-bundle.tgz` file.
+In situations where the instance running the project is not connected to the internet we provide pre-packaged images which can be loaded on the instance. To obtain the images, check under the [Releases](https://github.com/path-drc/path-drc-emr/releases) section and download the site-specific bundle:
 
-To load the images on the instance, extract the `path-drc-emr-images-bundle.tgz` file and run the following script:
+- `path-drc-emr-images-bundle-libiski.tgz` - For Libiski site
+- `path-drc-emr-images-bundle-akram.tgz` - For Akram site
+
+Each bundle contains:
+- Gateway image (common)
+- Frontend image (common)
+- Backend image (site-specific)
+- Database and backup images
+
+To load the images on the instance, extract the appropriate bundle file and run the following script:
 
 ```sh
 ./load-images.sh
 ```
+
+**Note:** Make sure to download and use the bundle that matches your site (`libiski` or `akram`).
 
 
 ## Backup and Restore

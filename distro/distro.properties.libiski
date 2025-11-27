@@ -1,4 +1,4 @@
-name=PATH DRC O3 Distribution
+name=PATH DRC O3 Distribution - Libiski
 version=${project.version}
 war.openmrs=${openmrs.version}
 omod.initializer=${initializer.version}
@@ -37,3 +37,5 @@ omod.drcreports=${drcreports.version}
 omod.drc=${drc.version}
 content.referenceapplication=${reference-content.version}
 content.path.drc=${path-drc-content.version}
+content.path.drc-libiski=${path-drc-content.version}
+

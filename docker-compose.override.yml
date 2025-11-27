@@ -16,3 +16,5 @@ services:
       secrets:
         - m2settings
       context: .
+      args:
+        SITE: ${SITE:-}
