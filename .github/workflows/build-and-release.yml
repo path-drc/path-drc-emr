@@ -45,27 +45,27 @@ jobs:
               - *common
               - ./sites/libikisi/**
 
-  list-changed-packages:
-      needs: get-changed-packages
-      runs-on: ubuntu-latest
-      env:
-        GH_EVENT_NAME: ${{ github.event_name }}
-      outputs:
-        changed-packages: ${{ steps.detect-changes.outputs.changed-packages }}
-      steps:
-        - id: detect-changes
-          run: |
-            case $GH_EVENT_NAME in
-              workflow_dispatch)
-                echo "changed-packages=${{ toJSON('[base, akram, libikisi]') }}" >> $GITHUB_OUTPUT
-                ;;
-              workflow_call)
-                echo "changed-packages=${{ toJSON('[base, akram, libikisi]') }}" >> $GITHUB_OUTPUT
-                ;;
-              *)
-                echo "changed-packages=${{ toJSON(needs.get-changed-packages.outputs.changed-packages) }}" >> $GITHUB_OUTPUT
-                ;;
-            esac
+  list-changed-distributions:
+    needs: get-changed-distributions
+    runs-on: ubuntu-latest
+    env:
+      GH_EVENT_NAME: ${{ github.event_name }}
+    outputs:
+      changed-packages: ${{ steps.detect-changes.outputs.changed-packages }}
+    steps:
+      - id: detect-changes
+        run: |
+          case $GH_EVENT_NAME in
+            workflow_dispatch)
+              echo "changed-packages=${{ toJSON('[base, akram, libikisi]') }}" >> $GITHUB_OUTPUT
+              ;;
+            workflow_call)
+              echo "changed-packages=${{ toJSON('[base, akram, libikisi]') }}" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "changed-packages=${{ toJSON(needs.get-changed-packages.outputs.changed-packages) }}" >> $GITHUB_OUTPUT
+              ;;
+          esac
 
   build-and-release-base:
     strategy:
@@ -212,7 +212,7 @@ jobs:
              path-drc-docker-compose.tgz
 
   build-and-release-sites:
-    needs: [ get-changed-packages, list-changed-packages ]
+    needs: [ get-changed-distributions, list-changed-distributions, build-and-release-base ]
     strategy:
       matrix:
         platform: [ ubuntu-latest ]
