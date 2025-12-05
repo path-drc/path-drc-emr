@@ -32,10 +32,13 @@ jobs:
         with:
           filters: |
             common: &common
-              - ./.github/workflows/*.yml
+              - ./.github/workflows/build-and-release.yml
               - ./distro/**
               - ./frontend/**
               - ./gateway/**
+              - pom.xml
+              - Dockerfile
+              - .dockerignore
             base:
               - *common
             sites/akram:
