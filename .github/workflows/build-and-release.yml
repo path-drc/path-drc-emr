@@ -307,7 +307,7 @@ jobs:
 
       - name: Generate docker-compose-skeleton.yaml with release version
         run: |
-          sed "s|__RELEASE_VERSION__|${{ env.RELEASE_VERSION }}|g" docker-compose-skeleton.yaml.template > docker-compose-normalized.yaml
+          sed "s|__RELEASE_VERSION__|${{ env.RELEASE_VERSION }}-${{ matrix.site }}|g" docker-compose-skeleton.yaml.template > docker-compose-normalized.yaml
 
       - name: Build senzing/docker-compose-air-gapper image
         run: |
