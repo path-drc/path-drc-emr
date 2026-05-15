@@ -90,6 +90,11 @@
   "@openmrs/esm-dispensing-app": {
     "completeOrderWithThisDispense": true
   },
+  "@openmrs/esm-patient-search-app": {
+    "search": {
+      "showRecentlySearchedPatients": false
+    }
+  },
   "@openmrs/esm-appointments-app": {
       "appointmentTypes": [
         "Scheduled"
