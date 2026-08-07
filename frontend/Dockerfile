@@ -85,7 +85,7 @@ RUN mkdir -p /pack /packs && \
 #--------------------------------------------
 FROM --platform=$BUILDPLATFORM node:22-alpine as dev
 
-ARG APP_SHELL_VERSION=next
+ARG APP_SHELL_VERSION=latest
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -132,7 +132,7 @@ RUN test -d ./spa/openmrs-esm-patient-orders-app-12.2.1 && test -d ./spa/cerveau
 #--------------------------------------------
 # Runtime Stage - Published Image
 #--------------------------------------------
-FROM nginx:1.25-alpine
+FROM nginx:1.31-alpine
 
 RUN apk update && \
   apk upgrade && \

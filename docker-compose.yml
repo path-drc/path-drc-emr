@@ -39,7 +39,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8080/openmrs"]
       timeout: 5s
     volumes:
-      - openmrs-data:/openmrs/data
+      - openmrs-data:/openmrs/data:z
       - "${OPENMRS_CONFIG_CHECKSUMS_PATH:-openmrs-config-checksums}:/openmrs/data/configuration_checksums"
       - "${OPENMRS_PERSON_IMAGES_PATH:-openmrs-person-images}:/openmrs/data/person_images"
       - "${OPENMRS_COMPLEX_OBS_PATH:-openmrs-complex-obs}:/openmrs/data/complex_obs"
