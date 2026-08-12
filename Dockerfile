@@ -18,7 +18,9 @@ ARG MVN_ARGS="install"
 COPY pom.xml ./
 COPY distro distro
 
-RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml if [[ "$MVN_ARGS" != "deploy" || "$(arch)" = "x86_64" ]]; then mvn $MVN_ARGS_SETTINGS $MVN_ARGS; else mvn $MVN_ARGS_SETTINGS install; fi
+# The cache mount keeps the local maven repository across builds, so a build
+# interrupted by a network drop resumes instead of re-downloading everything.
+RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml --mount=type=cache,target=/root/.m2/repository if [[ "$MVN_ARGS" != "deploy" || "$(arch)" = "x86_64" ]]; then mvn $MVN_ARGS_SETTINGS $MVN_ARGS; else mvn $MVN_ARGS_SETTINGS install; fi
 
 RUN cp ./distro/target/sdk-distro/web/openmrs_core/openmrs.war /openmrs/distribution/openmrs_core/
 RUN cp ./distro/target/sdk-distro/web/openmrs-distro.properties /openmrs/distribution/
@@ -37,7 +39,7 @@ ARG MVN_ARGS="install"
 COPY pom.xml .
 COPY sites/$MVN_PROJECT sites/$MVN_PROJECT
 
-RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml if [[ "$MVN_ARGS" != "deploy" || "$(arch)" = "x86_64" ]]; then mvn $MVN_ARGS_SETTINGS $MVN_ARGS; else mvn $MVN_ARGS_SETTINGS install; fi
+RUN --mount=type=secret,id=m2settings,target=/usr/share/maven/ref/settings-docker.xml --mount=type=cache,target=/root/.m2/repository if [[ "$MVN_ARGS" != "deploy" || "$(arch)" = "x86_64" ]]; then mvn $MVN_ARGS_SETTINGS $MVN_ARGS; else mvn $MVN_ARGS_SETTINGS install; fi
 
 RUN cp ./sites/$MVN_PROJECT/target/sdk-distro/web/openmrs_core/openmrs.war /openmrs/distribution/openmrs_core/
 RUN cp ./sites/$MVN_PROJECT/target/sdk-distro/web/openmrs-distro.properties /openmrs/distribution/
@@ -57,6 +59,10 @@ COPY --from=dev /openmrs/distribution/openmrs-distro.properties /openmrs/distrib
 COPY --from=dev /openmrs/distribution/openmrs_modules /openmrs/distribution/openmrs_modules
 COPY --from=dev /openmrs/distribution/openmrs_owas /openmrs/distribution/openmrs_owas
 COPY --from=dev /openmrs/distribution/openmrs_config /openmrs/distribution/openmrs_config
+
+# Overlay local Initializer configuration (custom order types + orderable concept
+# sets powering the 5-category Order Basket). Merges alongside the content packages.
+COPY ./distro/configuration/. /openmrs/distribution/openmrs_config/
 
 # Copy billing logo into image
 RUN mkdir -p /openmrs/assets

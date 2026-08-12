@@ -1,0 +1,1258 @@
+{
+  "@openmrs/esm-billing-app": {
+    "defaultCurrency": "CDF",
+    "country": "DRC",
+    "logo": {
+      "src": "${openmrsSpaBase}/logo.png",
+      "alt": "DRC"
+    }
+  },
+  "@openmrs/esm-patient-chart-app": {
+    "extensionSlots": {
+      "hct-clinical-visits-dashboard-slot": {
+        "add": [
+          "encounter-list"
+        ],
+        "configure": {
+          "encounter-list": {
+            "tabDefinitions": [
+              {
+                "tabName": "clinicalVisit",
+                "headerTitle": "clinicalVisit",
+                "displayText": "clinicalVisitEncounters",
+                "encounterType": "cb0a65a7-0587-477e-89b9-cf2fd144f1d4",
+                "columns": [
+                  {
+                    "id": "encounterDate",
+                    "isDate": true,
+                    "title": "encounterDate",
+                    "type": "encounterDatetime"
+                  },
+                  {
+                    "id": "clinicalVisitType",
+                    "title": "visitType",
+                    "concept": "8a9809e9-8a0b-4e0e-b1f6-80b0cbbe361b"
+                  },
+                  {
+                    "id": "clinicalScreeningOutcome",
+                    "title": "tbScreeningOutcome",
+                    "concept": "160108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "clinicalNextAppointmentDate",
+                    "title": "nextAppointmentDate",
+                    "isDate": true,
+                    "concept": "5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "DRC Clinical Visit Form v2.2",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "DRC Clinical Visit Form v2.2",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "8403d0d2-a88e-3f4e-b969-afa4d8c10563"
+                  }
+                ]
+              }
+            ],
+            "Translation overrides": {
+              "en": {
+                "clinicalVisit": "Clinical Visit",
+                "encounterDate": "Encounter Date",
+                "clinicalVisitEncounters": "clinical visit encounters",
+                "visitDate": "Visit Date",
+                "visitType": "Visit Type",
+                "tbScreeningOutcome": "TB Screening Outcome",
+                "nextAppointmentDate": "Next Appointment Date",
+                "actionsTitle": "Actions",
+                "viewDetails": "View Details",
+                "editForm": "Edit Form",
+                "add": "Add"
+              },
+              "fr": {
+                "clinicalVisit": "Visite clinique",
+                "encounterDate": "Date de rencontre",
+                "clinicalVisitEncounters": "Rencontres de visite clinique",
+                "visitDate": "Date de visite",
+                "visitType": "Type de visite",
+                "tbScreeningOutcome": "Résultat du dépistage de la tuberculose",
+                "nextAppointmentDate": "Date du prochain rendez-vous",
+                "actionsTitle": "Actions",
+                "viewDetails": "Voir les détails",
+                "editForm": "Modifier le formulaire",
+                "add": "Ajouter"
+              }
+            }
+          }
+        }
+      },
+      "action-menu-patient-chart-items-slot": {
+        "order": [
+          "order-basket-action-menu"
+        ]
+      },
+      "hct-general-counselling-dashboard-slot": {
+        "add": [
+          "encounter-list"
+        ],
+        "configure": {
+          "encounter-list": {
+            "tabDefinitions": [
+              {
+                "tabName": "mentalHealthAssessment",
+                "headerTitle": "mentalHealthAssessment",
+                "displayText": "mentalHealthAssessment",
+                "encounterType": "36db5123-0ad5-41c0-9037-625b46e0ceef",
+                "hasFilter": true,
+                "columns": [
+                  {
+                    "id": "screeningDate",
+                    "isDate": true,
+                    "title": "screeningDateTitle",
+                    "concept": "bdbfdfe3-24bb-40ea-b8db-2cfe6aa0d2e3"
+                  },
+                  {
+                    "id": "littleInterest",
+                    "title": "disinterestedInThings",
+                    "concept": "167006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "depressed",
+                    "title": "depressedTitle",
+                    "concept": "167007AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "appetite",
+                    "title": "poorAppetite",
+                    "concept": "167070AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "concentration",
+                    "title": "concentrationProblems",
+                    "concept": "167072AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Mental Health Assessment Form",
+                        "package": "hiv-care-treatment",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Mental Health Assessment Form",
+                        "package": "hiv-care-treatment",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "2069bd57-d534-3de9-ae24-f1d4e4b2de83"
+                  }
+                ]
+              },
+              {
+                "tabName": "disclosure",
+                "headerTitle": "disclosure",
+                "hasFilter": true,
+                "displayText": "disclosure",
+                "encounterType": "390c2f21-c1c4-4246-94ca-a026157cd1db",
+                "columns": [
+                  {
+                    "id": "disclosureDate",
+                    "title": "disclosureDateTitle",
+                    "concept": "6a0ee7c3-9ccc-4578-a617-a9097e697845"
+                  },
+                  {
+                    "id": "disclosureStage",
+                    "title": "disclosureStageTitle",
+                    "concept": "153b1513-4c90-4a72-9de4-65895eabd901"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Age Appropriate Disclosure Form",
+                        "package": "hiv",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Age Appropriate Disclosure Form",
+                        "package": "hiv",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "cb30cea5-3166-3e88-befb-9141e5f3769d"
+                  }
+                ]
+              }
+            ],
+            "Translation overrides": {
+              "en": {
+                "mentalHealthAssessment": "Mental Health Assessment",
+                "intimatePartnerViolence": "Intimate Partner Violence",
+                "disclosure": "Disclosure",
+                "screeningDateTitle": "Screening Date",
+                "disinterestedInThings": "Disinterested in Things",
+                "depressedTitle": "Depressed",
+                "poorAppetite": "Poor Appetite",
+                "concentrationProblems": "Concentration Problems",
+                "actionsTitle": "Actions",
+                "physicalAbuseTitle": "Physical Abuse",
+                "emotionalAbuseTitle": "Emotional Abuse",
+                "sexualAbuseTitle": "Sexual Abuse",
+                "disclosureDateTitle": "Disclosure Date",
+                "disclosureStageTitle": "Disclosure Stage",
+                "viewDetails": "View Details",
+                "editForm": "Edit Form",
+                "add": "Add"
+              },
+              "fr": {
+                "mentalHealthAssessment": "Évaluation de la santé mentale",
+                "intimatePartnerViolence": "Violence entre partenaires intimes",
+                "disclosure": "Divulgation",
+                "screeningDateTitle": "Date du dépistage",
+                "disinterestedInThings": "Désintéressé des choses",
+                "depressedTitle": "Déprimé",
+                "poorAppetite": "Mauvais appétit",
+                "concentrationProblems": "Problèmes de concentration",
+                "actionsTitle": "Actions",
+                "physicalAbuseTitle": "Abus physique",
+                "emotionalAbuseTitle": "Abus émotionnel",
+                "sexualAbuseTitle": "Abus sexuel",
+                "disclosureDateTitle": "Date de la divulgation",
+                "disclosureStageTitle": "Étape de la divulgation",
+                "viewDetails": "Voir les détails",
+                "editForm": "Modifier le formulaire",
+                "add": "Ajouter"
+              }
+            }
+          }
+        }
+      },
+      "hct-partner-notification-dashboard-slot": {
+        "add": [
+          "encounter-list"
+        ],
+        "configure": {
+          "encounter-list": {
+            "tabDefinitions": [
+              {
+                "tabName": "partnerNotification",
+                "hasFilter": true,
+                "headerTitle": "partnerNotification",
+                "displayText": "partnerNotification",
+                "encounterType": "4dd0ee63-805f-43e9-833c-6386ba97fdc1",
+                "columns": [
+                  {
+                    "id": "contactDate",
+                    "isDate": true,
+                    "title": "contactDateTitle",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "name",
+                    "title": "nameTitle",
+                    "concept": "166102AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "relationship",
+                    "title": "relationshipTitle",
+                    "concept": "1061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "hivStatus",
+                    "title": "status",
+                    "concept": "1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "type": "hivStatus",
+                    "statusColorMappings": {
+                      "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA": "red",
+                      "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA": "gray",
+                      "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA": "purple"
+                    }
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Partner Notification Form",
+                        "package": "hiv-care-treatment",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Partner Notification Form",
+                        "package": "hiv-care-treatment",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "cffe0e55-472f-35ff-97ba-a467cf49a4bc"
+                  }
+                ]
+              },
+              {
+                "tabName": "contactTracing",
+                "hasFilter": false,
+                "headerTitle": "contactTracing",
+                "displayText": "contactTracing",
+                "encounterType": "570e9e42-4306-41dc-9bf8-634bbc70a524",
+                "columns": [
+                  {
+                    "id": "contactDate",
+                    "isDate": true,
+                    "title": "contactDateTitle",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "contactMethod",
+                    "title": "contactMethodTitle",
+                    "concept": "59c023dd-eed2-4b11-8c34-b88e9439db3c"
+                  },
+                  {
+                    "id": "relationship",
+                    "title": "relationshipTitle",
+                    "concept": "160640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "DRC Case Contact Form v1.1",
+                        "package": "hiv-care-treatment",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "DRC Case Contact Form v1.1",
+                        "package": "hiv-care-treatment",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "4c7b0655-6a2a-3582-823c-1ec754558364"
+                  }
+                ]
+              }
+            ],
+            "Translation overrides": {
+              "en": {
+                "partnerNotification": "Partner Notification",
+                "contactTracing": "Contact Tracing",
+                "contactDateTitle": "Contact Date",
+                "nameTitle": "Name",
+                "relationshipTitle": "Relationship",
+                "status": "Status",
+                "contactMethodTitle": "Contact Method",
+                "actionsTitle": "Actions",
+                "viewDetails": "View Details",
+                "editForm": "Edit Form",
+                "add": "Add"
+              },
+              "fr": {
+                "partnerNotification": "Notification des partenaires",
+                "contactTracing": "Recherche des contacts",
+                "contactDateTitle": "Date de contact",
+                "nameTitle": "Nom",
+                "relationshipTitle": "Relation",
+                "status": "Statut",
+                "contactMethodTitle": "Méthode de contact",
+                "actionsTitle": "Actions",
+                "viewDetails": "Voir les détails",
+                "editForm": "Modifier le formulaire",
+                "add": "Ajouter"
+              }
+            }
+          }
+        }
+      },
+      "patient-chart-dashboard-slot": {
+        "add": [
+          "nav-group#HIVCareTreatment"
+        ],
+        "configure": {
+          "nav-group#HIVCareTreatment": {
+            "title": "hIVCareAndTreatment",
+            "slotName": "hiv-care-and-treatment-group-slot",
+            "isExpanded": true,
+            "Display conditions": {
+              "privilege": "View HIV Information"
+            },
+            "Translation overrides": {
+              "en": {
+                "hIVCareAndTreatment": "HIV Care And Treatment"
+              },
+              "fr": {
+                "hIVCareAndTreatment": "Soins et traitement du VIH"
+              }
+            }
+          }
+        }
+      },
+      "hiv-care-and-treatment-group-slot": {
+        "add": [
+          "dashboard#hct-patient-summary",
+          "dashboard#hct-program-management",
+          "dashboard#hct-clinical-visits",
+          "dashboard#hct-general-counselling",
+          "dashboard#hct-partner-notification"
+        ],
+        "order": [
+          "dashboard#hct-patient-summary",
+          "dashboard#hct-program-management",
+          "dashboard#hct-clinical-visits",
+          "dashboard#hct-general-counselling",
+          "dashboard#hct-partner-notification"
+        ],
+        "configure": {
+          "dashboard#hct-patient-summary": {
+            "title": "patientSummary",
+            "path": "hct-patient-summary",
+            "slot": "hct-patient-summary-dashboard-slot",
+            "Translation overrides": {
+              "en": {
+                "patientSummary": "Patient Summary"
+              },
+              "fr": {
+                "patientSummary": "Résumé du patient"
+              }
+            }
+          },
+          "dashboard#hct-program-management": {
+            "title": "programManagement",
+            "path": "hct-program-management",
+            "slot": "hct-program-management-dashboard-slot",
+            "Translation overrides": {
+              "en": {
+                "programManagement": "Program Management"
+              },
+              "fr": {
+                "programManagement": "Gestion du programme"
+              }
+            }
+          },
+          "dashboard#hct-clinical-visits": {
+            "title": "clinicalVisits",
+            "path": "hct-clinical-visits",
+            "slot": "hct-clinical-visits-dashboard-slot",
+            "Translation overrides": {
+              "en": {
+                "clinicalVisits": "Clinical Visits"
+              },
+              "fr": {
+                "clinicalVisits": "Visites cliniques"
+              }
+            }
+          },
+          "dashboard#hct-general-counselling": {
+            "title": "generalCounselling",
+            "path": "hct-general-counselling",
+            "slot": "hct-general-counselling-dashboard-slot",
+            "Translation overrides": {
+              "en": {
+                "generalCounselling": "General Counselling"
+              },
+              "fr": {
+                "generalCounselling": "Conseil général"
+              }
+            }
+          },
+          "dashboard#hct-partner-notification": {
+            "title": "partnerNotification",
+            "path": "hct-partner-notification",
+            "slot": "hct-partner-notification-dashboard-slot",
+            "Translation overrides": {
+              "en": {
+                "partnerNotification": "Partner Notification"
+              },
+              "fr": {
+                "partnerNotification": "Notification des partenaires"
+              }
+            }
+          }
+        }
+      },
+      "hct-patient-summary-dashboard-slot": {
+        "add": [
+          "clinical-views-summary"
+        ],
+        "configure": {
+          "clinical-views-summary": {
+            "tileDefinitions": [
+              {
+                "tileHeader": "characteristicsTitle",
+                "columns": [
+                  {
+                    "id": "artCohort",
+                    "title": "artCohortTitle",
+                    "encounterType": "74bf4fe6-8fdb-4228-be39-680a93a9cf6d",
+                    "concept": "159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "isDate": true,
+                    "conceptMappings": [
+                      "159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "162572AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "164516AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "164431AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "160738AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    ]
+                  },
+                  {
+                    "id": "currentRegimen",
+                    "title": "currentRegimenTitle",
+                    "hasSummary": true,
+                    "encounterType": "74bf4fe6-8fdb-4228-be39-680a93a9cf6d",
+                    "concept": "164515AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "summaryConcept": {
+                      "primaryConcept": "164432AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    }
+                  },
+                  {
+                    "id": "dsdModel",
+                    "title": "dsdModelTitle",
+                    "hasSummary": true,
+                    "encounterType": "62ee5922-a229-48d3-a1da-875c1ffa9436",
+                    "concept": "166448AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "populationType",
+                    "title": "populationTypeTitle",
+                    "encounterType": "7e54cd64-f9c3-11eb-8e6a-57478ce139b0",
+                    "concept": "746737c0-4201-4d7f-b580-816e36dc425a",
+                    "hasSummary": true,
+                    "summaryConcept": {
+                      "primaryConcept": "166433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "secondaryConcept": "d3d4ae96-8c8a-43db-a9dc-dac951f5dcb3"
+                    }
+                  }
+                ]
+              },
+              {
+                "tileHeader": "hivMonitoring",
+                "columns": [
+                  {
+                    "id": "viralLoad",
+                    "title": "viralLoadTitle",
+                    "encounterType": "39da3525-afe4-45ff-8977-c53b7b359158",
+                    "concept": "856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "hasSummary": true,
+                    "summaryConcept": {
+                      "type": "encounterDatetime",
+                      "isDate": true
+                    }
+                  },
+                  {
+                    "id": "lastCD4Count",
+                    "title": "lastCD4CountTitle",
+                    "hasSummary": true,
+                    "encounterType": "39da3525-afe4-45ff-8977-c53b7b359158",
+                    "concept": "5497AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "summaryConcept": {
+                      "type": "encounterDatetime",
+                      "isDate": true
+                    }
+                  }
+                ]
+              },
+              {
+                "tileHeader": "lastVisitDetails",
+                "columns": [
+                  {
+                    "id": "tbScreening",
+                    "title": "tbScreeningTitle",
+                    "encounterType": "cb0a65a7-0587-477e-89b9-cf2fd144f1d4",
+                    "concept": "160108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "hasSummary": true,
+                    "summaryConcept": {
+                      "primaryConcept": "164515AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "isDate": true
+                    }
+                  },
+                  {
+                    "id": "nextAppointmentDate",
+                    "title": "nextAppointmentDateTitle",
+                    "hasSummary": true,
+                    "encounterType": "cb0a65a7-0587-477e-89b9-cf2fd144f1d4",
+                    "concept": "5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "summaryConcept": {
+                      "primaryConcept": "5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "isDate": true,
+                      "hasCalculatedDate": true
+                    }
+                  },
+                  {
+                    "id": "currentWhoHivStage",
+                    "title": "currentWhoHivStageTitle",
+                    "encounterType": "cb0a65a7-0587-477e-89b9-cf2fd144f1d4",
+                    "concept": "5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  }
+                ]
+              }
+            ],
+            "Translation overrides": {
+              "en": {
+                "characteristicsTitle": "Characteristics",
+                "hivMonitoring": "HIV Monitoring",
+                "lastVisitDetails": "Last Visit Details",
+                "artCohortTitle": "ART Cohort",
+                "currentRegimenTitle": "Current Regimen",
+                "viralLoadTitle": "Current Viral Load",
+                "dsdModelTitle": "DSD Model",
+                "populationTypeTitle": "Population Type",
+                "reasonForCurrentVL": "Reason For Current VL",
+                "lastCD4CountTitle": "Last CD4 Count",
+                "tbScreeningTitle": "TB Screening",
+                "oIsTitle": "OIs",
+                "nextAppointmentDateTitle": "Next Appointment Date",
+                "currentWhoHivStageTitle": "Current WHO HIV Stage"
+              },
+              "fr": {
+                "artCohortTitle": "Cohorte TAR",
+                "currentRegimenTitle": "Régime actuel",
+                "viralLoadTitle": "Charge virale actuelle",
+                "dsdModelTitle": "Modèle DSD",
+                "populationTypeTitle": "Type de population",
+                "reasonForCurrentVL": "Raison de la charge virale actuelle",
+                "lastCD4CountTitle": "Dernier compte CD4",
+                "tbScreeningTitle": "Dépistage de la tuberculose",
+                "oIsTitle": "IO",
+                "nextAppointmentDateTitle": "Date du prochain rendez-vous",
+                "currentWhoHivStageTitle": "Stade actuel du VIH",
+                "characteristicsTitle": "Caractéristiques",
+                "hivMonitoring": "Surveillance du VIH",
+                "lastVisitDetails": "Détails de la dernière visite"
+              }
+            }
+          }
+        }
+      },
+      "hct-program-management-dashboard-slot": {
+        "add": [
+          "encounter-list"
+        ],
+        "configure": {
+          "encounter-list": {
+            "tabDefinitions": [
+              {
+                "tabName": "hIVEnrolment",
+                "headerTitle": "hIVEnrolment",
+                "displayText": "hIVEnrolment",
+                "encounterType": "7e54cd64-f9c3-11eb-8e6a-57478ce139b0",
+                "columns": [
+                  {
+                    "id": "date",
+                    "isDate": true,
+                    "title": "enrollment/Re-enrollmentDate",
+                    "concept": "160555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "fallbackConcepts": [
+                      "1134a5b2-b0a2-4c24-b795-33c21a1a320c"
+                    ]
+                  },
+                  {
+                    "id": "dateConfirmedPositive",
+                    "isDate": true,
+                    "title": "dateConfirmedHIVPositive",
+                    "concept": "160554AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "entryPoint",
+                    "title": "entryPointTitle",
+                    "concept": "160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "populationCategory",
+                    "title": "populationCategoryTitle",
+                    "concept": "746737c0-4201-4d7f-b580-816e36dc425a"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "DRC HIV Enrolment Form 1.2",
+                        "package": "hiv-care-treatment",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "DRC HIV Enrolment Form 1.2",
+                        "package": "hiv-care-treatment",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "3a9c853c-caa5-377f-af57-fab09d0d0d39"
+                  }
+                ]
+              },
+              {
+                "tabName": "aRTTherapy",
+                "headerTitle": "aRTTherapy",
+                "displayText": "aRTTherapy",
+                "encounterType": "74bf4fe6-8fdb-4228-be39-680a93a9cf6d",
+                "columns": [
+                  {
+                    "id": "initiationDate",
+                    "isDate": true,
+                    "title": "date",
+                    "conceptMappings": [
+                      "159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "162572AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "164516AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "164431AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "160738AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    ]
+                  },
+                  {
+                    "id": "therapyPlan",
+                    "title": "therapyPlanTitle",
+                    "concept": "1255AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "valueMappings": {
+                      "Start ART": "1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "Substitute ART Regimen": "1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "Switch ART Regimen Line": "1259AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "Stop ART": "1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "Restart ART therapy": "162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    }
+                  },
+                  {
+                    "id": "regimenInitiated",
+                    "title": "regimenLine",
+                    "concept": "164515AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "regimen",
+                    "title": "regimenTitle",
+                    "concept": "164432AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "reason",
+                    "title": "reasonTitle",
+                    "conceptMappings": [
+                      "160568AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "160562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "163513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                      "161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    ],
+                    "concept": "159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "ART Therapy Form",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "ART Therapy Form",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "9d65e3cf-0763-3def-bff0-12ac720ef5b5"
+                  }
+                ]
+              },
+              {
+                "tabName": "serviceDeliveryModel",
+                "headerTitle": "serviceDeliveryModel",
+                "displayText": "serviceDeliveryModel",
+                "encounterType": "62ee5922-a229-48d3-a1da-875c1ffa9436",
+                "columns": [
+                  {
+                    "id": "vlDate",
+                    "isDate": true,
+                    "title": "date",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "dsdModel",
+                    "title": "dsdModelTitle",
+                    "concept": "166448AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Service Delivery Model Form",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Service Delivery Model Form",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "1e14f841-b42b-3273-93db-807927ca9a82"
+                  }
+                ]
+              },
+              {
+                "tabName": "transferOut",
+                "headerTitle": "transferOut",
+                "displayText": "transferOut",
+                "encounterType": "3044916a-7e5f-478b-9091-803233f27f91",
+                "columns": [
+                  {
+                    "id": "receivingFacility",
+                    "title": "receivingFacilityTitle",
+                    "concept": "162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "transferOutDate",
+                    "title": "transferOutDateTitle",
+                    "isDate": true,
+                    "concept": "160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "verified",
+                    "title": "verifiedTitle",
+                    "isTrueFalseConcept": true,
+                    "concept": "797e0073-1f3f-46b1-8b1a-8cdad134d2b3"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Transfer Out Form",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Transfer Out Form",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "a969288d-6605-361b-b01c-42f6ef25c0f5"
+                  }
+                ]
+              },
+              {
+                "tabName": "patientTracing",
+                "headerTitle": "patientTracing",
+                "displayText": "patientTracing",
+                "encounterType": "0cd5d4cb-204e-419a-9dd7-1e18e939ce4c",
+                "columns": [
+                  {
+                    "id": "contactDate",
+                    "isDate": true,
+                    "title": "contactDateTitle",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "contactMethod",
+                    "title": "contactMethodTitle",
+                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "contactOutcome",
+                    "title": "contactOutcomeTitle",
+                    "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Patient Tracing Form",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Patient Tracing Form",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "71f3febd-dd11-322b-9c18-2a8a07d87af1"
+                  }
+                ]
+              },
+              {
+                "tabName": "death",
+                "headerTitle": "death",
+                "displayText": "death",
+                "encounterType": "111c2104-991d-4b58-a30e-ce84bb275534",
+                "columns": [
+                  {
+                    "id": "deathDate",
+                    "isDate": true,
+                    "title": "deathDateTitle",
+                    "concept": "1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "deathCause",
+                    "title": "causeOfDeath",
+                    "concept": "1599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  {
+                    "id": "specificDeathCause",
+                    "title": "specificCauseOfDeath",
+                    "multipleConcepts": [
+                      "efd206db-ed68-4ac3-8916-da524f029643",
+                      "1c06de20-fbc0-4d42-a638-f273e5db2146",
+                      "162574AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    ],
+                    "useMultipleObs": true
+                  },
+                  {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                      {
+                        "formName": "Death Form",
+                        "label": "viewDetails",
+                        "mode": "view"
+                      },
+                      {
+                        "formName": "Death Form",
+                        "label": "editForm",
+                        "mode": "edit"
+                      }
+                    ]
+                  }
+                ],
+                "launchOptions": {
+                  "displayText": "add"
+                },
+                "formList": [
+                  {
+                    "uuid": "41af2def-841d-38b7-8d2e-df25bdd0b73f"
+                  }
+                ]
+              }
+            ],
+            "Translation overrides": {
+              "en": {
+                "hIVEnrolment": "HIV Enrollment",
+                "enrollment/Re-enrollmentDate": "Enrollment/Re-enrollment Date",
+                "dateConfirmedHIVPositive": "Date confirmed HIV+",
+                "entryPointTitle": "Entry Point",
+                "populationCategoryTitle": "Population Category",
+                "aRTTherapy": "ART Therapy",
+                "date": "Date",
+                "therapyPlanTitle": "Therapy Plan",
+                "regimenTitle": "Regimen",
+                "regimenLine": "Regimen Line",
+                "reasonTitle": "Reason",
+                "serviceDeliveryModel": "Service Delivery Model",
+                "dsdModelTitle": "DSD Model",
+                "transferOut": "Transfer Out",
+                "transferOutDateTitle": "Transfer Out Date",
+                "visitDateTitle": "Visit Date",
+                "receivingFacilityTitle": "Receiving Facility",
+                "verifiedTitle": "Verified",
+                "patientTracing": "Patient Tracing",
+                "contactDateTitle": "Contact Date",
+                "contactMethodTitle": "Contact Method",
+                "contactOutcomeTitle": "Contact Outcome",
+                "death": "Death",
+                "deathDateTitle": "Death Date",
+                "causeOfDeath": "Cause of Death",
+                "specificCauseOfDeath": "Specific cause of Death",
+                "actionsTitle": "Actions",
+                "viewDetails": "View Details",
+                "editForm": "Edit Form",
+                "add": "Add",
+                "Start ART": "Start ART",
+                "Substitute ART Regimen": "Substitute ART Regimen",
+                "Switch ART Regimen Line": "Switch ART Regimen Line",
+                "Stop ART": "Stop ART",
+                "Restart ART therapy": "Restart ART therapy"
+              },
+              "fr": {
+                "hIVEnrolment": "Inscription au VIH",
+                "enrollment/Re-enrollmentDate": "Date d'inscription/réinscription",
+                "dateConfirmedHIVPositive": "Date confirmée VIH+",
+                "entryPointTitle": "Point d'entrée",
+                "populationCategoryTitle": "Catégorie de population",
+                "aRTTherapy": "Thérapie antirétrovirale",
+                "date": "Date",
+                "therapyPlanTitle": "Plan de thérapie",
+                "regimenTitle": "Régime",
+                "regimenLine": "Ligne de régime",
+                "reasonTitle": "Raison",
+                "serviceDeliveryModel": "Modèle de prestation de services",
+                "dsdModelTitle": "Modèle DSD",
+                "transferOut": "Transfert",
+                "transferOutDateTitle": "Date de transfert",
+                "visitDateTitle": "Date de visite",
+                "receivingFacilityTitle": "Établissement récepteur",
+                "verifiedTitle": "Vérifié",
+                "patientTracing": "Recherche des patients",
+                "contactDateTitle": "Date de contact",
+                "contactMethodTitle": "Méthode de contact",
+                "contactOutcomeTitle": "Résultat du contact",
+                "death": "Décès",
+                "deathDateTitle": "Date de décès",
+                "causeOfDeath": "Cause du décès",
+                "specificCauseOfDeath": "Cause spécifique du décès",
+                "actionsTitle": "Actions",
+                "viewDetails": "Voir les détails",
+                "editForm": "Modifier le formulaire",
+                "add": "Ajouter",
+                "Start ART": "Démarrer la thérapie antirétrovirale",
+                "Substitute ART Regimen": "Remplacer le régime antirétroviral",
+                "Switch ART Regimen Line": "Changer de ligne de régime",
+                "Stop ART": "Arrêter la thérapie antirétrovirale",
+                "Restart ART therapy": "Reprendre la thérapie antirétrovirale"
+              }
+            }
+          }
+        }
+      }
+    },
+    "showUpcomingAppointments": true,
+    "logo": {
+      "src": "${openmrsSpaBase}/nav-logo.png",
+      "alt": "Logo"
+    },
+    "visitAttributeTypes": [],
+    "restrictByVisitLocationTag": true
+  },
+  "@openmrs/esm-ward-app": {
+    "extensionSlots": {
+      "action-menu-ward-patient-items-slot": {
+        "add": [
+          "order-basket-action-menu"
+        ]
+      }
+    }
+  },
+  "@openmrs/esm-service-queues-app": {
+    "priorityConfigs": [
+      {
+        "conceptUuid": "04f6f7e0-e3cb-4e13-a133-4479f759574e",
+        "tagClassName": "tag",
+        "tagType": "red"
+      }
+    ],
+    "statusConfigs": [
+      {
+        "conceptUuid": "51ae5e4d-b72b-4912-bf31-a17efb690aeb",
+        "iconComponent": "InProgress"
+      },
+      {
+        "conceptUuid": "ca7494ae-437f-4fd0-8aae-b88b9a2ba47d",
+        "iconComponent": "Group"
+      },
+      {
+        "conceptUuid": "b559fb77-4e1e-4285-b9b7-1d03e0ba983f",
+        "iconComponent": "Group"
+      }
+    ],
+    "concepts": {
+      "defaultPriorityConceptUuid": "f4620bfa-3625-4883-bd3f-84c2cce14470",
+      "emergencyPriorityConceptUuid": "04f6f7e0-e3cb-4e13-a133-4479f759574e",
+      "defaultStatusConceptUuid": "51ae5e4d-b72b-4912-bf31-a17efb690aeb",
+      "defaultTransitionStatus": "ca7494ae-437f-4fd0-8aae-b88b9a2ba47d"
+    },
+    "visitQueueNumberAttributeUuid": "",
+    "defaultFacilityUrl": ""
+  },
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": "#005d5d"
+  },
+  "@openmrs/esm-login-app": {
+    "logo": {
+      "src": "${openmrsSpaBase}/logo.png",
+      "alt": "Logo"
+    }
+  },
+  "@openmrs/esm-primary-navigation-app": {
+    "logo": {
+      "src": "${openmrsSpaBase}/nav-logo.png",
+      "alt": "Logo"
+    }
+  },
+  "@openmrs/esm-form-builder-app": {
+    "showSchemaSaveWarning": false
+  },
+  "@openmrs/esm-patient-registration-app": {
+    "fieldConfigurations": {
+      "gender": [
+        {
+          "value": "male",
+          "label": "male"
+        },
+        {
+          "value": "female",
+          "label": "female"
+        }
+      ]
+    },
+    "defaultPatientIdentifierTypes": [
+      "05a29f94-c0ed-11e2-94be-8c13b969e334",
+      "9d6d1eec-2cd6-4637-a981-4a46b4b8b41f",
+      "038796d1-642f-4098-afda-22e627cc84ea"
+    ]
+  },
+  "@openmrs/esm-dispensing-app": {
+    "completeOrderWithThisDispense": true
+  },
+  "@openmrs/esm-patient-search-app": {
+    "search": {
+      "showRecentlySearchedPatients": false
+    }
+  },
+  "@openmrs/esm-appointments-app": {
+    "appointmentTypes": [
+      "Scheduled"
+    ],
+    "appointmentStatuses": [
+      "Requested",
+      "Scheduled",
+      "CheckedIn",
+      "Completed",
+      "Cancelled",
+      "Missed"
+    ],
+    "Translation overrides": {
+      "fr": {
+        "Requested": "Demandé",
+        "Scheduled": "Prévue",
+        "CheckedIn": "Archivé",
+        "Completed": "Terminé",
+        "Cancelled": "Annulé",
+        "Missed": "Raté"
+      }
+    }
+  },
+  "@openmrs/esm-patient-tests-app": {
+    "resultsViewerConcepts": [
+      {
+        "conceptUuid": "d46dfc42-c29a-48d3-bec9-25963481b64f",
+        "defaultOpen": false
+      },
+      {
+        "conceptUuid": "856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "defaultOpen": false
+      }
+    ]
+  },
+  "@openmrs/esm-patient-orders-app": {
+    "orderTypes": []
+  },
+  "path-drc-esm-orders-app": {
+    "imaging": {
+      "orderTypeUuid": "9c786025-575e-4b31-8c5c-e0907d574f4c",
+      "conceptSetUuid": "319d8dfc-ccc4-4b5d-8675-bb09942e6b64"
+    },
+    "procedure": {
+      "orderTypeUuid": "89b2923d-cd99-4cce-8098-79d0fe23f1ea",
+      "conceptSetUuid": "c789511c-bee8-43ed-9e46-fa19b952fb78",
+      "procedureTypeConceptSetUuid": "9e5cf474-84c3-49c4-9e60-aece3db44fe2",
+      "bodySiteConceptSetUuid": "3edb08bb-de40-498c-9c0d-94f98a1ff9f2"
+    },
+    "medicalSupply": {
+      "orderTypeUuid": "3fefd401-acf3-4969-9d2b-1bf7a01b112b",
+      "conceptSetUuid": "fbaf78be-fd4f-4ca5-b115-3224b483532d"
+    }
+  },
+  "@openmrs/esm-home-app": {
+    "extensionSlots": {
+      "homepage-dashboard-slot": {
+        "order": [
+          "service-queues-dashboard-link",
+          "clinical-appointments-dashboard-link",
+          "patient-lists-dashboard-link",
+          "ward-dashboard-link",
+          "laboratory-dashboard-link",
+          "radiology-and-imaging-dashboard-link",
+          "procedures-dashboard-link",
+          "billing-dashboard-link"
+        ]
+      }
+    }
+  }
+}

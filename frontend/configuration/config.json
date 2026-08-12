@@ -90,32 +90,67 @@
   "@openmrs/esm-dispensing-app": {
     "completeOrderWithThisDispense": true
   },
+  "@openmrs/esm-patient-orders-app": {
+    "orderTypes": []
+  },
   "@openmrs/esm-patient-search-app": {
     "search": {
       "showRecentlySearchedPatients": false
     }
   },
   "@openmrs/esm-appointments-app": {
-      "appointmentTypes": [
-        "Scheduled"
-      ],
-      "appointmentStatuses": [
-        "Requested",
-        "Scheduled",
-        "CheckedIn",
-        "Completed",
-        "Cancelled",
-        "Missed"
-      ],
-      "Translation overrides": {
-        "fr": {
-          "Requested": "Demandé",
-          "Scheduled": "Prévue",
-          "CheckedIn": "Archivé",
-          "Completed": "Terminé",
-          "Cancelled": "Annulé",
-          "Missed": "Raté"
-        }
+    "appointmentTypes": [
+      "Scheduled"
+    ],
+    "appointmentStatuses": [
+      "Requested",
+      "Scheduled",
+      "CheckedIn",
+      "Completed",
+      "Cancelled",
+      "Missed"
+    ],
+    "Translation overrides": {
+      "fr": {
+        "Requested": "Demandé",
+        "Scheduled": "Prévue",
+        "CheckedIn": "Archivé",
+        "Completed": "Terminé",
+        "Cancelled": "Annulé",
+        "Missed": "Raté"
       }
     }
+  },
+  "cerveaubleu-drc-esm-orders-app": {
+    "imaging": {
+      "orderTypeUuid": "9c786025-575e-4b31-8c5c-e0907d574f4c",
+      "conceptSetUuid": "319d8dfc-ccc4-4b5d-8675-bb09942e6b64"
+    },
+    "procedure": {
+      "orderTypeUuid": "89b2923d-cd99-4cce-8098-79d0fe23f1ea",
+      "conceptSetUuid": "c789511c-bee8-43ed-9e46-fa19b952fb78",
+      "procedureTypeConceptSetUuid": "9e5cf474-84c3-49c4-9e60-aece3db44fe2",
+      "bodySiteConceptSetUuid": "3edb08bb-de40-498c-9c0d-94f98a1ff9f2"
+    },
+    "medicalSupply": {
+      "orderTypeUuid": "3fefd401-acf3-4969-9d2b-1bf7a01b112b",
+      "conceptSetUuid": "fbaf78be-fd4f-4ca5-b115-3224b483532d"
+    }
+  },
+  "@openmrs/esm-home-app": {
+    "extensionSlots": {
+      "homepage-dashboard-slot": {
+        "order": [
+          "service-queues-dashboard-link",
+          "clinical-appointments-dashboard-link",
+          "patient-lists-dashboard-link",
+          "ward-dashboard-link",
+          "laboratory-dashboard-link",
+          "radiology-and-imaging-dashboard-link",
+          "procedures-dashboard-link",
+          "billing-dashboard-link"
+        ]
+      }
+    }
+  }
 }

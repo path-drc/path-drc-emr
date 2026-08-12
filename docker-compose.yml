@@ -1,6 +1,6 @@
 services:
   gateway:
-    image: ghcr.io/path-drc/path-drc-emr-gateway:latest
+    image: ghcr.io/cerveaubleu64/path-drc-emr-gateway:latest
     restart: "unless-stopped"
     depends_on:
       - frontend
@@ -9,7 +9,7 @@ services:
       - "80:80"
 
   frontend:
-    image: ghcr.io/path-drc/path-drc-emr-frontend:${TAG:-latest}
+    image: ghcr.io/cerveaubleu64/path-drc-emr-frontend:${TAG:-latest}
     restart: "unless-stopped"
     environment:
       SPA_PATH: /openmrs/spa
@@ -23,7 +23,7 @@ services:
       - backend
 
   backend:
-    image: ghcr.io/path-drc/path-drc-emr-backend:${TAG:-latest}
+    image: ghcr.io/cerveaubleu64/path-drc-emr-backend:${TAG:-latest}
     restart: "unless-stopped"
     depends_on:
       - db

@@ -1,0 +1,4 @@
+Uuid,Void/Retire,Name,display:en,display:fr,Description,Java class name,Parent,Concept Classes
+9c786025-575e-4b31-8c5c-e0907d574f4c,,Imaging Order,Imaging Order,Examens d’imagerie,Order type for imaging and radiology exams,org.openmrs.TestOrder,,Radiology/Imaging Procedure
+89b2923d-cd99-4cce-8098-79d0fe23f1ea,,Procedure Order,Procedure Order,Ordres de procédures,Order type for clinical procedures,org.openmrs.TestOrder,,Procedure
+3fefd401-acf3-4969-9d2b-1bf7a01b112b,,Medical Supply Order,Medical Supply Order,Fournitures médicales,Order type for medical supplies,org.openmrs.Order,,Medical supply
