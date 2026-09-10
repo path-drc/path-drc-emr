@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkpath_drc_esm_orders_app=globalThis.webpackChunkpath_drc_esm_orders_app||[]).push([["932"],{74306:function(e,r,a){a.r(r),a.d(r,{default:()=>p});var t=a(37027),n=a.n(t),l=a(87392);let p=function(){return n().createElement(l.RT,null)}}}]);

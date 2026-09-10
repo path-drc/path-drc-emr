@@ -1,0 +1,355 @@
+diff --git a/packages/esm-patient-common-lib/src/orders/types/order.ts b/packages/esm-patient-common-lib/src/orders/types/order.ts
+index ab868c3..b26e377 100644
+--- a/packages/esm-patient-common-lib/src/orders/types/order.ts
++++ b/packages/esm-patient-common-lib/src/orders/types/order.ts
+@@ -65,6 +65,14 @@ export interface OrderBasketItem {
+   concept?: Concept;
+   instructions?: string;
+   urgency?: OrderUrgency;
++  /**
++   * The laterality of the order. Only applicable to orders whose order type maps to org.openmrs.TestOrder.
++   */
++  laterality?: OrderLaterality | '';
++  /**
++   * The Java class name of the order's order type. Used to determine the REST order subtype to post.
++   */
++  orderTypeJavaClassName?: string;
+   previousOrder?: string;
+   orderType?: string;
+   orderNumber?: string;
+@@ -75,6 +83,8 @@ export interface OrderBasketItem {
+ 
+ export type OrderUrgency = 'ROUTINE' | 'STAT' | 'ON_SCHEDULED_DATE';
+ 
++export type OrderLaterality = 'LEFT' | 'RIGHT' | 'BILATERAL';
++
+ export type PriorityOption = {
+   label: string;
+   value: OrderUrgency;
+@@ -98,6 +108,7 @@ export interface OrderPost {
+   accessionNumber?: string;
+   orderType?: string;
+   scheduledDate?: string;
++  laterality?: OrderLaterality;
+ }
+ 
+ export interface DrugOrderPost extends OrderPost {
+diff --git a/packages/esm-patient-orders-app/src/order-basket/general-order-type/add-general-order/search-results.component.tsx b/packages/esm-patient-orders-app/src/order-basket/general-order-type/add-general-order/search-results.component.tsx
+index 5e54cff..f41d6c2 100644
+--- a/packages/esm-patient-orders-app/src/order-basket/general-order-type/add-general-order/search-results.component.tsx
++++ b/packages/esm-patient-orders-app/src/order-basket/general-order-type/add-general-order/search-results.component.tsx
+@@ -14,6 +14,7 @@ import {
+   type OrderBasketItem,
+   type OrderableConcept,
+   useOrderBasket,
++  useOrderType,
+   useOrderableConceptSets,
+ } from '@openmrs/esm-patient-common-lib';
+ import { createEmptyOrder, prepOrderPostData } from '../resources';
+@@ -164,6 +165,7 @@ const TestTypeSearchResultItem: React.FC<TestTypeSearchResultItemProps> = ({
+   const { t } = useTranslation();
+   const isTablet = useLayoutType() === 'tablet';
+   const { orders, setOrders } = useOrderBasket<OrderBasketItem>(patient, orderTypeUuid, prepOrderPostData);
++  const { orderType } = useOrderType(orderTypeUuid);
+ 
+   const orderAlreadyInBasket = useMemo(
+     () => orders?.some((order) => order.concept.uuid === concept.uuid),
+@@ -171,11 +173,11 @@ const TestTypeSearchResultItem: React.FC<TestTypeSearchResultItemProps> = ({
+   );
+ 
+   const addToBasket = useCallback(() => {
+-    const orderBasketItem = createEmptyOrder(concept, visit);
++    const orderBasketItem = createEmptyOrder(concept, visit, orderType?.javaClassName);
+     orderBasketItem.isOrderIncomplete = true;
+     setOrders([...orders, orderBasketItem]);
+     closeWorkspace({ discardUnsavedChanges: true });
+-  }, [orders, setOrders, concept, closeWorkspace, visit]);
++  }, [orders, setOrders, concept, closeWorkspace, visit, orderType?.javaClassName]);
+ 
+   const removeFromBasket = useCallback(() => {
+     setOrders(orders.filter((order) => order?.concept?.uuid !== concept?.uuid));
+@@ -214,7 +216,7 @@ const TestTypeSearchResultItem: React.FC<TestTypeSearchResultItemProps> = ({
+         <Button
+           kind="ghost"
+           renderIcon={(props: ComponentProps<typeof ArrowRightIcon>) => <ArrowRightIcon size={16} {...props} />}
+-          onClick={() => openOrderForm(createEmptyOrder(concept, visit))}
++          onClick={() => openOrderForm(createEmptyOrder(concept, visit, orderType?.javaClassName))}
+         >
+           {t('goToDrugOrderForm', 'Order form')}
+         </Button>
+diff --git a/packages/esm-patient-orders-app/src/order-basket/general-order-type/general-order-form/general-order-form.component.tsx b/packages/esm-patient-orders-app/src/order-basket/general-order-type/general-order-form/general-order-form.component.tsx
+index 484864c..6d9372e 100644
+--- a/packages/esm-patient-orders-app/src/order-basket/general-order-type/general-order-form/general-order-form.component.tsx
++++ b/packages/esm-patient-orders-app/src/order-basket/general-order-type/general-order-form/general-order-form.component.tsx
+@@ -49,12 +49,30 @@ export function OrderForm({
+   setHasUnsavedChanges,
+ }: OrderFormProps) {
+   const { t } = useTranslation();
++  // Localized labels for the native order urgency values (the framework's
++  // priorityOptions labels are frozen module constants and cannot be translated
++  // via runtime config, so we relabel them here from this app's own namespace).
++  const priorityLabels: Record<string, string> = {
++    ROUTINE: t('orderPriorityRoutine', 'Routine'),
++    STAT: t('orderPriorityStat', 'Stat'),
++    ON_SCHEDULED_DATE: t('orderPriorityScheduled', 'Scheduled'),
++  };
+   const isTablet = useLayoutType() === 'tablet';
+   const { orders, setOrders, clearOrders } = useOrderBasket<OrderBasketItem>(patient, orderTypeUuid, prepOrderPostData);
+   const { orderType } = useOrderType(orderTypeUuid);
+   const config = useConfig<ConfigObject>();
+   const { mutate: mutateOrders } = useMutatePatientOrders(patient.id);
+ 
++  // Laterality is a property of org.openmrs.TestOrder, so the field is only
++  // shown for order types backed by that Java class.
++  const isTestOrderType = orderType?.javaClassName === 'org.openmrs.TestOrder';
++  const lateralityOptions = [
++    { value: '', label: t('lateralityNotSpecified', 'Not specified') },
++    { value: 'LEFT', label: t('lateralityLeft', 'Left') },
++    { value: 'RIGHT', label: t('lateralityRight', 'Right') },
++    { value: 'BILATERAL', label: t('lateralityBilateral', 'Bilateral') },
++  ];
++
+   const OrderFormSchema = useMemo(
+     () =>
+       z
+@@ -64,6 +82,7 @@ export function OrderForm({
+             message: t('priorityRequired', 'Priority is required'),
+           }),
+           accessionNumber: z.string().nullish(),
++          laterality: z.string().nullish(),
+           concept: z.object(
+             { display: z.string(), uuid: z.string() },
+             {
+@@ -91,6 +110,7 @@ export function OrderForm({
+     resolver: zodResolver(OrderFormSchema),
+     defaultValues: {
+       ...initialOrder,
++      laterality: initialOrder?.laterality ?? '',
+     },
+   });
+ 
+@@ -101,6 +121,7 @@ export function OrderForm({
+       const finalizedOrder: OrderBasketItem = {
+         ...initialOrder,
+         ...data,
++        orderTypeJavaClassName: orderType?.javaClassName ?? initialOrder?.orderTypeJavaClassName,
+       };
+ 
+       const newOrders = [...orders];
+@@ -120,7 +141,7 @@ export function OrderForm({
+ 
+       closeWorkspace({ discardUnsavedChanges: true });
+     },
+-    [orders, setOrders, initialOrder, closeWorkspace],
++    [orders, setOrders, initialOrder, closeWorkspace, orderType?.javaClassName],
+   );
+ 
+   const submitOrderToServer = useCallback(
+@@ -128,6 +149,7 @@ export function OrderForm({
+       const finalizedOrder: OrderBasketItem = {
+         ...initialOrder,
+         ...data,
++        orderTypeJavaClassName: orderType?.javaClassName ?? initialOrder?.orderTypeJavaClassName,
+       };
+ 
+       return postOrder(
+@@ -152,7 +174,16 @@ export function OrderForm({
+           });
+         });
+     },
+-    [clearOrders, closeWorkspace, initialOrder, mutateOrders, patient.id, orderToEditOrdererUuid, t],
++    [
++      clearOrders,
++      closeWorkspace,
++      initialOrder,
++      mutateOrders,
++      patient.id,
++      orderToEditOrdererUuid,
++      t,
++      orderType?.javaClassName,
++    ],
+   );
+ 
+   const onError = (errors: FieldErrors<OrderBasketItem>) => {
+@@ -235,13 +266,40 @@ export function OrderForm({
+                       labelText={t('priority', 'Priority')}
+                     >
+                       {priorityOptions.map((option) => (
+-                        <SelectItem key={option.value} text={option.label} value={option.value} />
++                        <SelectItem
++                          key={option.value}
++                          text={priorityLabels[option.value] ?? option.label}
++                          value={option.value}
++                        />
+                       ))}
+                     </Select>
+                   )}
+                 />
+               </InputWrapper>
+             </Column>
++            {isTestOrderType && (
++              <Column lg={8} md={8} sm={4}>
++                <InputWrapper>
++                  <Controller
++                    name="laterality"
++                    control={control}
++                    render={({ field, fieldState }) => (
++                      <Select
++                        id="lateralityInput"
++                        {...field}
++                        invalid={Boolean(fieldState?.error)}
++                        invalidText={fieldState?.error?.message}
++                        labelText={t('laterality', 'Laterality')}
++                      >
++                        {lateralityOptions.map((option) => (
++                          <SelectItem key={option.value} text={option.label} value={option.value} />
++                        ))}
++                      </Select>
++                    )}
++                  />
++                </InputWrapper>
++              </Column>
++            )}
+           </Grid>
+           {isScheduledDateRequired && (
+             <Grid className={styles.gridRow}>
+diff --git a/packages/esm-patient-orders-app/src/order-basket/general-order-type/resources.ts b/packages/esm-patient-orders-app/src/order-basket/general-order-type/resources.ts
+index 13fb6b6..8b670ae 100644
+--- a/packages/esm-patient-orders-app/src/order-basket/general-order-type/resources.ts
++++ b/packages/esm-patient-orders-app/src/order-basket/general-order-type/resources.ts
+@@ -9,13 +9,19 @@ import {
+   type PostDataPrepFunction,
+ } from '@openmrs/esm-patient-common-lib';
+ 
+-export function createEmptyOrder(concept: OrderableConcept, visit: Visit): OrderBasketItem {
++export function createEmptyOrder(
++  concept: OrderableConcept,
++  visit: Visit,
++  orderTypeJavaClassName?: string,
++): OrderBasketItem {
+   return {
+     action: 'NEW',
+     urgency: priorityOptions[0].value as OrderUrgency,
+     display: concept.display,
+     concept,
+     visit,
++    laterality: '',
++    orderTypeJavaClassName,
+   };
+ }
+ 
+@@ -29,10 +35,17 @@ export const prepOrderPostData: PostDataPrepFunction = (
+   encounterUuid,
+   orderingProviderUuid,
+ ): OrderPost => {
++  // Orders whose order type maps to org.openmrs.TestOrder must be posted with the
++  // 'testorder' REST subtype, which also supports test-order-specific properties
++  // such as laterality.
++  const isTestOrder = order.orderTypeJavaClassName === 'org.openmrs.TestOrder';
++  const type = isTestOrder ? 'testorder' : 'order';
++  const laterality = isTestOrder && order.laterality ? order.laterality : undefined;
++
+   if (order.action === 'NEW' || order.action === 'RENEW') {
+     return {
+       action: 'NEW',
+-      type: 'order',
++      type,
+       patient: patientUuid,
+       careSetting: careSettingUuid,
+       orderer: orderingProviderUuid,
+@@ -42,12 +55,13 @@ export const prepOrderPostData: PostDataPrepFunction = (
+       // orderReason: order.orderReason,
+       accessionNumber: order.accessionNumber,
+       urgency: order.urgency,
++      laterality,
+       scheduledDate: order.scheduledDate ? toOmrsIsoString(order.scheduledDate) : null,
+     };
+   } else if (order.action === 'REVISE') {
+     return {
+       action: 'REVISE',
+-      type: 'order',
++      type,
+       patient: patientUuid,
+       careSetting: careSettingUuid,
+       orderer: orderingProviderUuid,
+@@ -57,12 +71,13 @@ export const prepOrderPostData: PostDataPrepFunction = (
+       previousOrder: order.previousOrder,
+       accessionNumber: order.accessionNumber,
+       urgency: order.urgency,
++      laterality,
+       scheduledDate: order.scheduledDate ? toOmrsIsoString(order.scheduledDate) : null,
+     };
+   } else if (order.action === 'DISCONTINUE') {
+     return {
+       action: 'DISCONTINUE',
+-      type: 'order',
++      type,
+       patient: patientUuid,
+       careSetting: careSettingUuid,
+       orderer: orderingProviderUuid,
+diff --git a/packages/esm-patient-orders-app/src/utils/index.ts b/packages/esm-patient-orders-app/src/utils/index.ts
+index 2064669..b1cb03a 100644
+--- a/packages/esm-patient-orders-app/src/utils/index.ts
++++ b/packages/esm-patient-orders-app/src/utils/index.ts
+@@ -144,6 +144,9 @@ export function buildGeneralOrder(order: Order, action?: OrderAction): OrderBask
+     concept: order.concept,
+     orderNumber: order.orderNumber,
+     orderType: order.orderType.uuid,
++    // The REST `type` property is 'testorder' for orders backed by org.openmrs.TestOrder
++    orderTypeJavaClassName: order.type === 'testorder' ? 'org.openmrs.TestOrder' : 'org.openmrs.Order',
++    laterality: (order.laterality as OrderBasketItem['laterality']) ?? '',
+     scheduledDate: order.scheduledDate ? new Date(order.scheduledDate) : null,
+     encounterUuid: order.encounter?.uuid,
+     visit: order.encounter.visit,
+diff --git a/packages/esm-patient-orders-app/translations/en.json b/packages/esm-patient-orders-app/translations/en.json
+index 64a38c6..69d7c79 100644
+--- a/packages/esm-patient-orders-app/translations/en.json
++++ b/packages/esm-patient-orders-app/translations/en.json
+@@ -44,6 +44,11 @@
+   "invalidLabTestConfiguration": "Invalid lab test configuration",
+   "invalidLabTestConfigurationSubtitle": "This test needs to be configured with a specific type (like number, text, or choice list) to record results properly. Please contact your system administrator to fix this.",
+   "labResultError": "Error loading lab results",
++  "laterality": "Laterality",
++  "lateralityBilateral": "Bilateral",
++  "lateralityLeft": "Left",
++  "lateralityNotSpecified": "Not specified",
++  "lateralityRight": "Right",
+   "launchOrderBasket": "Launch order basket",
+   "loading": "Loading",
+   "loadingInitialValues": "Loading initial values",
+@@ -80,6 +85,9 @@
+   "orderPinned": "Order pinned",
+   "orderPinnedSubtitle": "{{drugName}} added to your pinned orders",
+   "orderPlaced": "Order placed",
++  "orderPriorityRoutine": "Routine",
++  "orderPriorityScheduled": "Scheduled",
++  "orderPriorityStat": "Stat",
+   "orders": "Orders",
+   "Orders": "Orders",
+   "ordersCompleted": "Orders completed",
+diff --git a/packages/esm-patient-orders-app/translations/fr.json b/packages/esm-patient-orders-app/translations/fr.json
+index 469ba17..9eb25be 100644
+--- a/packages/esm-patient-orders-app/translations/fr.json
++++ b/packages/esm-patient-orders-app/translations/fr.json
+@@ -44,6 +44,11 @@
+   "invalidLabTestConfiguration": "Configuration d’analyse invalide",
+   "invalidLabTestConfigurationSubtitle": "Cette analyse doit être configurée avec un type spécifique (comme un nombre, un texte ou une liste de choix) pour que les résultats puissent être enregistrés correctement. Veuillez contacter votre administrateur système pour corriger ce problème.",
+   "labResultError": "Error de chargement des résultats d'analyses",
++  "laterality": "Latéralité",
++  "lateralityBilateral": "Bilatéral",
++  "lateralityLeft": "Gauche",
++  "lateralityNotSpecified": "Non spécifié",
++  "lateralityRight": "Droite",
+   "launchOrderBasket": "Accéder à l'ordonnance",
+   "loading": "Chargement",
+   "loadingInitialValues": "Chargement des valeurs initiales",
+@@ -80,6 +85,9 @@
+   "orderPinned": "Order pinned",
+   "orderPinnedSubtitle": "{{drugName}} added to your pinned orders",
+   "orderPlaced": "Order placed",
++  "orderPriorityRoutine": "Routine",
++  "orderPriorityScheduled": "Scheduled (planifié)",
++  "orderPriorityStat": "Stat (urgent)",
+   "orders": "Ordonnances",
+   "Orders": "Ordonnances",
+   "ordersCompleted": "Orders completed",

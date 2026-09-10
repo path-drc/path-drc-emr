@@ -1,0 +1,1 @@
+{"version":3,"file":"934.js","sources":["webpack://path-drc-esm-orders-app/./src/workspaces/add-procedure-order.workspace.tsx"],"names":["props","AddOrderWorkspace","workspaceProps","kind"],"mappings":"0+BAQA,MAJkG,SAACA,CAAK,E,OACtG,kBAACC,EAAAA,CAAiBA,CAAAA,EAAAA,EAAAA,CAAAA,EAAKD,GAAAA,CAAOE,eAAgB,OAAKF,EAAME,cAAc,GAAEC,KAAM,W"}

@@ -28,7 +28,7 @@
     "@openmrs/esm-patient-lists-app": "latest",
     "@openmrs/esm-patient-medications-app": "next",
     "@openmrs/esm-patient-notes-app": "latest",
-    "@openmrs/esm-patient-orders-app": "next",
+    "@openmrs/esm-patient-orders-app": "./openmrs-esm-patient-orders-app-12.2.1.tgz",
     "@openmrs/esm-patient-programs-app": "latest",
     "@openmrs/esm-patient-registration-app": "latest",
     "@openmrs/esm-patient-search-app": "latest",
@@ -41,7 +41,8 @@
     "@openmrs/esm-user-onboarding-app": "latest",
     "@openmrs/esm-stock-management-app": "latest",
     "@openmrs/esm-billing-app": "latest",
-    "@openmrs/esm-ward-app": "latest"
+    "@openmrs/esm-ward-app": "latest",
+    "cerveaubleu-drc-esm-orders-app": "./cerveaubleu-drc-esm-orders-app-1.0.0.tgz"
   },
   "excludedFrontendModules": []
 }
